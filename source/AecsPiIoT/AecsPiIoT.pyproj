@@ -26,7 +26,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AecsPiIoT.py" />
     <Compile Include="DatabaseHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
