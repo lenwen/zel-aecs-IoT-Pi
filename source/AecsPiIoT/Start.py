@@ -60,21 +60,21 @@ if Settings.debugToConsole or Settings.debugToFile:
 
 
 def shutDown():
-    print ("Stop all runnings threads")
+    Debug.Info ("Stop all runnings threads")
     for t in Settings.threads:
         print('Thead: ' + str(Settings.threads[t].getName()) + ' will now stop()')
         Settings.threads[t].stop()
        
-    print ("Wait 5 sec for threads to end")
+    Debug.Info("Wait 5 sec for threads to end")
     time.sleep(2);
 
-    print ("Threads are joining before exit")
+    Debug.Info("Threads are joining before exit")
     for t in Settings.threads:
         Settings.threads[t].join()
     sys.exit(0)
 
 def signal_handler(signal, frame):
-    print ('You pressed Ctrl+C!')
+    Debug.Info ('You pressed Ctrl+C!')
     shutDown()
 
 #   On Board 1-Wire Init
@@ -109,7 +109,7 @@ def GetPlatformRunningOn():
       
 
 def main():
-    print("Aecs-Pi-IoT Starting!!")
+    Debug.Info("Aecs-Pi-IoT Starting!!")
     
     #   Get platform information
     GetPlatformRunningOn()
@@ -117,15 +117,15 @@ def main():
     #   Allow CTRL + c to shutdown the system
     signal.signal(signal.SIGINT, signal_handler)
 
-    #   Database handling
+    #   Init Database  And get settings from database
     Database.start()
 
-
+    
     OnBoardOneWireInit();
     
     time.sleep(5)
     while True:
-        debug("While is running from start")
+        Debug.Info("While is running from start")
         #for oneWire in sensorOneWireOnBoardDs18b20List:
         #    timeago = time.time() - oneWire.lastchecked
         #    print("ID: " + oneWire.romid + " Temp: " + str(round(oneWire.temp,2)) + " Status: " + oneWire.status + " Check: "  + str(round(timeago)))
@@ -138,7 +138,7 @@ def main():
         
         time.sleep(5)
 
-    print("Ending")
+    Debug.Info("Ending")
     
 
 if __name__ == "__main__":

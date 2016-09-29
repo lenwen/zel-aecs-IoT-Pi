@@ -12,6 +12,9 @@ class Settings(object):
     debugfile = '/etc/aecs/debug.log'
 
     #   Sensor 1-Wire On Board settings
+    OneWireOnBoardIsRunning = False
+    OneWireOnBoardShodBeRunning = False
+    OneWireOnBoardWaitBetweenRun = 10
     sensorOneWireOnBoardDs18b20CrcWaitingTime = 5
     sensorOneWireOnBoardDs18b20MissingTime = 30
 
