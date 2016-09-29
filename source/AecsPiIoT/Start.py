@@ -82,19 +82,22 @@ def OnBoardOneWireHandling():
     if (Settings.OnBoardOneWireIsRunning):
         if (Settings.OnBoardOneWireShodBeRunning == False):
             #   On Board One Wire is running. but i shod NOT be running
-            dsfds = "sdfdsf"
-    if ("onboardOneWire" in Settings.threads):
-        #   onboard One Wire is already init
-        if (Settings.threads["onboardOneWire"].running == False):
-            #   The thread is not running. start the Thread.
-            Settings.threads["onboardOneWire"].start()
+            Settings.threads["onboardOneWire"].stop()
     else:
-        #   Not init. do init
-        os.system('modprobe w1-gpio')  # Turns on the GPIO module
-        os.system('modprobe w1-therm') # Turns on the Temperature module
-        thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
-        thOnBoardOneWireHandling.start();
-        Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
+        if (Settings.OnBoardOneWireShodBeRunning):
+            #   On board One Wire shod be running.
+            if ("onboardOneWire" in Settings.threads):
+                #   onboard One Wire is already init
+                if (Settings.threads["onboardOneWire"].running == False):
+                    #   The thread is not running. start the Thread.
+                    Settings.threads["onboardOneWire"].run()
+            else:
+                #   Not init. do init
+                os.system('modprobe w1-gpio')  # Turns on the GPIO module
+                os.system('modprobe w1-therm') # Turns on the Temperature module
+                thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
+                thOnBoardOneWireHandling.start();
+                Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
 
 def GetPlatformRunningOn():
      #   Get os information
@@ -111,6 +114,8 @@ def GetPlatformRunningOn():
         Settings.dbfilename = Settings.dir_ConfigFiles + "aecs.db"
         import RPi.GPIO as GPIO
       
+#   Allow CTRL + c to shutdown the system
+signal.signal(signal.SIGINT, signal_handler)
 
 def main():
     Debug.Info("Aecs-Pi-IoT Starting!!")
@@ -123,8 +128,7 @@ def main():
     #   Get platform information
     GetPlatformRunningOn()
 
-    #   Allow CTRL + c to shutdown the system
-    signal.signal(signal.SIGINT, signal_handler)
+
 
     #   Init Database  And get settings from database
     Database.start()

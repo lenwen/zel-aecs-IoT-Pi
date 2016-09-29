@@ -6,7 +6,7 @@ import sqlite3
 import os
 
 from Settings import Settings
-
+from Debug import Debug
 from Sensors import OneWireOnBoardDs18b20Class, SensorInfo
 
 #   Dict sensors ds18b20
