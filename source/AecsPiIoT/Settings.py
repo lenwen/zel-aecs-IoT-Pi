@@ -6,9 +6,9 @@ class Settings(object):
     dir_ConfigFiles = '/etc/aecs/'
     dbfilename = ""
     #   Debug information
-    debugEnable = True
-    debugToConsole = True
-    debugToFile = True
+    debugEnable = False
+    debugToConsole = False
+    debugToFile = False
     debugfile = '/etc/aecs/debug.log'
 
     #   Sensor 1-Wire On Board settings

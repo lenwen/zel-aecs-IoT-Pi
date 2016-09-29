@@ -1,9 +1,5 @@
 #Enable when running debug on raspberry pi
 
-import ptvsd
-ptvsd.enable_attach('aecspi')
-
-
 GPIO = None
 #try:
     
@@ -28,7 +24,40 @@ from DatabaseHandling import Database
 
 import OnBoardOneWireHandling
 
-debug = True
+commandline = sys.argv
+vsDebug = False
+
+#   Read and set CommandLine arguments
+for cmd in sys.argv:
+    cmdLower = cmd.lower()
+    print(cmdLower)
+    if cmdLower == "debugtoconsole":
+        Settings.debugToConsole = True
+        Settings.debugEnable = True
+    if cmdLower == "debugtofile":
+        Settings.debugToFile = True
+        Settings.debugEnable = True
+    if cmdLower == "vs":
+        vsDebug = True
+
+#   if this is Vs debug on Ptvsd. init ptvsd and wait for debug connection
+if vsDebug:
+    import ptvsd
+    ptvsd.enable_attach('aecs')
+    print("Waiting for debug init - 60 sek")
+    ptvsd.wait_for_attach(60)
+
+if Settings.debugToConsole or Settings.debugToFile:
+    print("Debug is turn on from commandline")
+    if (Settings.debugToFile):
+        print("Debug to file: " + Settings.debugfile)
+
+        
+
+sys.exit(0)
+
+#   Remove the old debug system
+# debug = True
 
 def debug(debugtext):
     if Settings.debugEnable:
@@ -90,10 +119,6 @@ def GetPlatformRunningOn():
 def main():
     print("Aecs-Pi-IoT Starting!!")
     
-    if debug:
-        print("Waiting for debug init - 30 sek")
-        ptvsd.wait_for_attach(30)
-
     #   Get platform information
     GetPlatformRunningOn()
 
