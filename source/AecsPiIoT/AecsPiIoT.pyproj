@@ -29,6 +29,9 @@
     <Compile Include="DatabaseHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Debug\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="OnBoardOneWireHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -47,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DatabaseHandling\" />
+    <Folder Include="Debug\" />
     <Folder Include="OnBoardOneWireHandling\" />
   </ItemGroup>
   <ItemGroup>

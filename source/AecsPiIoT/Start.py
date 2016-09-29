@@ -21,6 +21,7 @@ from _ast import Str
 
 from Settings import Settings
 from DatabaseHandling import Database
+from Debug import Debug
 
 import OnBoardOneWireHandling
 
@@ -44,28 +45,19 @@ for cmd in sys.argv:
 if vsDebug:
     import ptvsd
     ptvsd.enable_attach('aecs')
-    print("Waiting for debug init - 60 sek")
+    Settings.debugEnable = True
+    Settings.debugToConsole = True
+    Debug.Info("Waiting for debug init - 60 sek")
     ptvsd.wait_for_attach(60)
 
+
 if Settings.debugToConsole or Settings.debugToFile:
-    print("Debug is turn on from commandline")
+    Debug.Info("Debug is turn on from commandline")
     if (Settings.debugToFile):
-        print("Debug to file: " + Settings.debugfile)
+        Debug.Info("Debug to file: " + Settings.debugfile)
 
-        
 
-sys.exit(0)
 
-#   Remove the old debug system
-# debug = True
-
-def debug(debugtext):
-    if Settings.debugEnable:
-        if Settings.debugToConsole:
-            print(debugtext)
-        if Settings.debugToFile:
-            with open(Settings.debugfile, 'a') as file_:
-                file_.write(time.strftime("%H:%M:%S") + " - " + str(debugtext) + "\n")
 
 def shutDown():
     print ("Stop all runnings threads")
