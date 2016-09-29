@@ -78,7 +78,11 @@ def signal_handler(signal, frame):
     shutDown()
 
 #   On Board 1-Wire Init
-def OnBoardOneWireInit():
+def OnBoardOneWireHandling():
+    if (Settings.OnBoardOneWireIsRunning):
+        if (Settings.OnBoardOneWireShodBeRunning == False):
+            #   On Board One Wire is running. but i shod NOT be running
+            dsfds = "sdfdsf"
     if ("onboardOneWire" in Settings.threads):
         #   onboard One Wire is already init
         if (Settings.threads["onboardOneWire"].running == False):
@@ -111,6 +115,11 @@ def GetPlatformRunningOn():
 def main():
     Debug.Info("Aecs-Pi-IoT Starting!!")
     
+
+    if (Settings.ApplicationShodEnd):
+        while (True):
+            time.sleep(2)
+
     #   Get platform information
     GetPlatformRunningOn()
 
@@ -121,11 +130,14 @@ def main():
     Database.start()
 
     
-    OnBoardOneWireInit();
+    
     
     time.sleep(5)
     while True:
         Debug.Info("While is running from start")
+
+        OnBoardOneWireHandling();
+
         #for oneWire in sensorOneWireOnBoardDs18b20List:
         #    timeago = time.time() - oneWire.lastchecked
         #    print("ID: " + oneWire.romid + " Temp: " + str(round(oneWire.temp,2)) + " Status: " + oneWire.status + " Check: "  + str(round(timeago)))

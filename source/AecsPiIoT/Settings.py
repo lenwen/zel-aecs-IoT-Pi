@@ -11,12 +11,14 @@ class Settings(object):
     debugToFile = False
     debugfile = '/etc/aecs/debug.log'
 
+    ApplicationShodEnd = False
+
     #   Sensor 1-Wire On Board settings
-    OneWireOnBoardIsRunning = False
-    OneWireOnBoardShodBeRunning = False
-    OneWireOnBoardWaitBetweenRun = 10
-    sensorOneWireOnBoardDs18b20CrcWaitingTime = 5
-    sensorOneWireOnBoardDs18b20MissingTime = 30
+    OnBoardOneWireIsRunning = False
+    OnBoardOneWireShodBeRunning = False
+    OnBoardOneWiredWaitBetweenRun = 10
+    OnBoardOneWiresensorDs18b20CrcWaitingTime = 5
+    OnBoardOneWireSensorDs18b20MissingTime = 30
 
     #   All threads that is running in system
     threads = {}  
