@@ -1,10 +1,13 @@
 #Enable when running debug on raspberry pi
 
-GPIO = None
+#GPIO = None
+import RPi.GPIO as GPIO
+
 #try:
     
 #except RuntimeError:
 #    print("Gpio error")
+
 
 import io
 import os
@@ -112,7 +115,7 @@ def GetPlatformRunningOn():
         Settings.dbfilename = Settings.dir_ConfigFiles + "aecs.db"
     else:
         Settings.dbfilename = Settings.dir_ConfigFiles + "aecs.db"
-        import RPi.GPIO as GPIO
+        
       
 #   Allow CTRL + c to shutdown the system
 signal.signal(signal.SIGINT, signal_handler)
@@ -128,7 +131,7 @@ def main():
     #   Get platform information
     GetPlatformRunningOn()
 
-
+    
 
     #   Init Database  And get settings from database
     Database.start()

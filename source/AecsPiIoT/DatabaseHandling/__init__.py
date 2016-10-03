@@ -4,7 +4,8 @@ import datetime
 import glob
 import sqlite3
 import os
-
+from Debug import Debug
+from Settings import Settings
 
 from Settings import Settings
 
@@ -37,8 +38,10 @@ class Database(object):
             c.execute("INSERT INTO tblsettings VALUES('debugtoconsole','1');")
             c.execute("INSERT INTO tblsettings VALUES('debugtofile','1');")
             c.execute("INSERT INTO tblsettings VALUES('debugfile','1');")
-            c.execute("INSERT INTO tblsettings VALUES('sensoronewireonboardds18b20crcwaitingtime','5');")
-            c.execute("INSERT INTO tblsettings VALUES('sensoronewireonboardds18b20missingtime','30');")
+            c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireShodBeRunning','1');")
+            c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireWaitBetweenRun','10');")
+            c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireSensorDs18b20CrcWaitingTime','5');")
+            c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireSensorDs18b20MissingTime','30');")
 
             c.execute("CREATE TABLE `tblsensors` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,	`type`	TEXT NOT NULL,	`tag`	TEXT NOT NULL,	`name`	TEXT,	`info`	TEXT,	`enable`	INTEGER NOT NULL DEFAULT 0,	`isworking`	INTEGER NOT NULL DEFAULT 0,	`collectvaluetime`	INTEGER NOT NULL DEFAULT 0,	`saverealtimetodatabase`	INTEGER NOT NULL DEFAULT 0,	`savehistorytodatabase`	INTEGER NOT NULL DEFAULT 0,	`sensorvalue1`	REAL,	`sensorvalue2`	REAL);")
             c.execute("CREATE INDEX `sensormatch` ON `tblsensors` (`type` ASC,`tag` ASC);")
@@ -63,9 +66,32 @@ class Database(object):
         rows = c.fetchall()
 
         for row in rows:
-            print(row)
+            if row[0] is not None:
+                sdfsdf = str(row[0])
+                matchWord = str(row[0].lower().strip())
+                Debug.Info(matchWord)
+                
+                if matchWord == "onboardonewireshodberunning":
+                    Debug.Info("OnBoardOneWireShodBeRunning Found in database")
+                    if row[1] == "1":
+                        Settings.OnBoardOneWireShodBeRunning = True
+                    else:
+                        Settings.OnBoardOneWireShodBeRunning = False
 
-        print("ddd")
+                if matchWord == "onboardonewirewaitbetweenrun":
+                    Debug.Info("OnBoardOneWireWaitBetweenRun Found in database")
+
+                if matchWord == "onboardonewiresensords18b20crcwaitingtime":
+                    Debug.Info("OnBoardOneWireSensorDs18b20CrcWaitingTime Found in database")
+
+                if matchWord == "onboardonewiresensords18b20missingtime":
+                    Debug.Info("OnBoardOneWireSensorDs18b20MissingTime Found in database")
+
+                Debug.Info("-------")
+
+
+        Debug.Info("Done!!!")
+        
 
     def DoDbNeedUpdate(dbversion = int):
         if dbversion < 2:

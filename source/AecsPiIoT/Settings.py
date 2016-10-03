@@ -16,8 +16,8 @@ class Settings(object):
     #   Sensor 1-Wire On Board settings
     OnBoardOneWireIsRunning = False
     OnBoardOneWireShodBeRunning = False
-    OnBoardOneWiredWaitBetweenRun = 10
-    OnBoardOneWiresensorDs18b20CrcWaitingTime = 5
+    OnBoardOneWireWaitBetweenRun = 10
+    OnBoardOneWireSensorDs18b20CrcWaitingTime = 5
     OnBoardOneWireSensorDs18b20MissingTime = 30
 
     #   All threads that is running in system
@@ -30,4 +30,5 @@ class Settings(object):
 
     
 
+    # aecs@pidev
 
