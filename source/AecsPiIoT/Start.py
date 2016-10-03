@@ -38,11 +38,14 @@ for cmd in sys.argv:
     if cmdLower == "debugtoconsole":
         Settings.debugToConsole = True
         Settings.debugEnable = True
+        Settings.debugForceFromCmd = True
     if cmdLower == "debugtofile":
         Settings.debugToFile = True
         Settings.debugEnable = True
+        Settings.debugForceFromCmd = True
     if cmdLower == "vs":
         vsDebug = True
+        Settings.debugForceFromCmd = True
 
 #   if this is Vs debug on Ptvsd. init ptvsd and wait for debug connection
 if vsDebug:
@@ -135,9 +138,6 @@ def main():
 
     #   Init Database  And get settings from database
     Database.start()
-
-    
-    
     
     time.sleep(5)
     while True:
@@ -145,6 +145,7 @@ def main():
 
         OnBoardOneWireHandling();
 
+        sdfsd = "dsfsdf"
         #for oneWire in sensorOneWireOnBoardDs18b20List:
         #    timeago = time.time() - oneWire.lastchecked
         #    print("ID: " + oneWire.romid + " Temp: " + str(round(oneWire.temp,2)) + " Status: " + oneWire.status + " Check: "  + str(round(timeago)))

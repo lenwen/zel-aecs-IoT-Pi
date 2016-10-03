@@ -55,9 +55,8 @@ class Database(object):
         row = c.fetchone()
         dbversion = int(str(row[0]))
 
-        dsfdsf = "sdfdsfd"
-
-        print(dbversion)
+        # dsfdsf = "sdfdsfd"
+        Debug.Info("Database running version: " + dbversion)
 
         Database.DoDbNeedUpdate(dbversion)
 
@@ -65,32 +64,43 @@ class Database(object):
         c.execute("select * from tblsettings;")
         rows = c.fetchall()
 
+        #   Save settings to running application
         for row in rows:
             if row[0] is not None:
-                sdfsdf = str(row[0])
                 matchWord = str(row[0].lower().strip())
-                Debug.Info(matchWord)
                 
-                if matchWord == "onboardonewireshodberunning":
+                if matchWord == "dbversion":
+                    Settings.dbVersion = row[1]
+                elif matchWord == "debugenable":
+                    Debug.Info("debugenable Found in database")
+                    if (Settings.debugForceFromCmd is False):
+                        Settings.debugEnable = row[1]
+                    else:
+                        Debug.Info("Debug force from console. dont change value")
+
+                elif matchWord == "onboardonewireshodberunning":
                     Debug.Info("OnBoardOneWireShodBeRunning Found in database")
                     if row[1] == "1":
                         Settings.OnBoardOneWireShodBeRunning = True
                     else:
                         Settings.OnBoardOneWireShodBeRunning = False
 
-                if matchWord == "onboardonewirewaitbetweenrun":
+                elif matchWord == "onboardonewirewaitbetweenrun":
                     Debug.Info("OnBoardOneWireWaitBetweenRun Found in database")
+                    Settings.OnBoardOneWireWaitBetweenRun = row[1]
 
-                if matchWord == "onboardonewiresensords18b20crcwaitingtime":
+                elif matchWord == "onboardonewiresensords18b20crcwaitingtime":
                     Debug.Info("OnBoardOneWireSensorDs18b20CrcWaitingTime Found in database")
+                    Settings.OnBoardOneWireSensorDs18b20CrcWaitingTime = row[1]
 
-                if matchWord == "onboardonewiresensords18b20missingtime":
+                elif matchWord == "onboardonewiresensords18b20missingtime":
                     Debug.Info("OnBoardOneWireSensorDs18b20MissingTime Found in database")
+                    Settings.OnBoardOneWireSensorDs18b20MissingTime = row[1]
 
-                Debug.Info("-------")
+                else:
+                    Debug.Error("Settings Value is missing!!!!!\nValue: " + matchWord + "\nData: " + row[1]) 
 
-
-        Debug.Info("Done!!!")
+        Debug.Info("Settings read from database done!")
         
 
     def DoDbNeedUpdate(dbversion = int):
@@ -100,3 +110,4 @@ class Database(object):
     def DoUpgrade2():
         print("upgrade 2")
            
+# aecs@pidev

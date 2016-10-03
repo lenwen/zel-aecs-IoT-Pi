@@ -5,7 +5,9 @@ class Settings(object):
     dir_OneWireOnBoard = '/sys/bus/w1/devices/'
     dir_ConfigFiles = '/etc/aecs/'
     dbfilename = ""
+    dbVersion = 0
     #   Debug information
+    debugForceFromCmd = False
     debugEnable = False
     debugToConsole = False
     debugToFile = False
