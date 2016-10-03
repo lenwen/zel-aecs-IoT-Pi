@@ -24,16 +24,20 @@ class OnBoardOneWireHandling (threading.Thread):
         self.threadID = threadID
         self.name = name
         self.counter = counter
-        self.running = False;
+        #self.running = False;
         self.dbcon = None
 
     def run(self):
         #   Database connection.
         self.dbcon = sqlite3.connect(Settings.dir_ConfigFiles + "aecs.db")
         #global sensorOneWireOnBoardDs18b20List
-        self.running = True;
+        #self.running = True;
+        Settings.OnBoardOneWireIsRunning = True
+
         FolderScanLastTime = 0;
-        while(self.running):
+        while(Settings.OnBoardOneWireIsRunning):
+            Debug.Info("board-Onewire| While running")
+
             #print("running!!!!")
             if time.time() - FolderScanLastTime > 60:
                 self.getFoldersToScan()
@@ -51,9 +55,13 @@ class OnBoardOneWireHandling (threading.Thread):
                 if returnStatus is "OK":
                     sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "OK"
                     sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = time.time()
+                    Debug.Info("RomeId:" + str(oneWire) + " Value: " + str(returnTemp))
                 
                 sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.temp = returnTemp
-            time.sleep(1)
+            
+            #   Time to wait befor next run    
+            time.sleep(float(Settings.OnBoardOneWireWaitBetweenRun))
+            # time.sleep(Settings.OnBoardOneWireWaitBetweenRun)
             
             
 
@@ -103,7 +111,8 @@ class OnBoardOneWireHandling (threading.Thread):
                 text = tfile.read()
                 tfile.close()
                 time.sleep(0.2)
-                if time.time() - sensorReadingStartTime > Settings.sensorOneWireOnBoardDs18b20CrcWaitingTime:
+                #if time.time() - sensorReadingStartTime > Settings.sensorOneWireOnBoardDs18b20CrcWaitingTime:
+                if time.time() - sensorReadingStartTime > float(Settings.OnBoardOneWireSensorDs18b20CrcWaitingTime):
                     #   This sensor have not got CRC = YES in more then x sec now.
                     return sensorRomeId,"ERROR-CRC", -999
                 #time.sleep(1)
@@ -116,6 +125,6 @@ class OnBoardOneWireHandling (threading.Thread):
             return sensorRomeId,"ERROR", -999
 
     def stop(self):
-        self.running = False
+        Settings.OnBoardOneWireIsRunning = False
     
 

@@ -40,7 +40,7 @@ class Database(object):
             c.execute("INSERT INTO tblsettings VALUES('debugfile','1');")
             c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireShodBeRunning','1');")
             c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireWaitBetweenRun','10');")
-            c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireSensorDs18b20CrcWaitingTime','5');")
+            c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireSensorDs18b20CrcWaitingTime','20');")
             c.execute("INSERT INTO tblsettings VALUES('OnBoardOneWireSensorDs18b20MissingTime','30');")
 
             c.execute("CREATE TABLE `tblsensors` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,	`type`	TEXT NOT NULL,	`tag`	TEXT NOT NULL,	`name`	TEXT,	`info`	TEXT,	`enable`	INTEGER NOT NULL DEFAULT 0,	`isworking`	INTEGER NOT NULL DEFAULT 0,	`collectvaluetime`	INTEGER NOT NULL DEFAULT 0,	`saverealtimetodatabase`	INTEGER NOT NULL DEFAULT 0,	`savehistorytodatabase`	INTEGER NOT NULL DEFAULT 0,	`sensorvalue1`	REAL,	`sensorvalue2`	REAL);")
@@ -56,7 +56,7 @@ class Database(object):
         dbversion = int(str(row[0]))
 
         # dsfdsf = "sdfdsfd"
-        Debug.Info("Database running version: " + dbversion)
+        Debug.Info("Database running version: " + str(dbversion))
 
         Database.DoDbNeedUpdate(dbversion)
 
@@ -75,6 +75,27 @@ class Database(object):
                     Debug.Info("debugenable Found in database")
                     if (Settings.debugForceFromCmd is False):
                         Settings.debugEnable = row[1]
+                    else:
+                        Debug.Info("Debug force from console. dont change value")
+
+                elif matchWord == "debugtoconsole":
+                    Debug.Info("debugtoconsole found in database")
+                    if (Settings.debugForceFromCmd is False):
+                        Settings.debugToConsole = row[1]
+                    else:
+                        Debug.Info("Debug force from console. dont change value")
+
+                elif matchWord == "debugtofile":
+                    Debug.Info("debugtofile found in database")
+                    if (Settings.debugForceFromCmd is False):
+                        Settings.debugToFile = row[1]
+                    else:
+                        Debug.Info("Debug force from console. dont change value")
+
+                elif matchWord == "debugfile":
+                    Debug.Info("debugfile found in database")
+                    if (Settings.debugForceFromCmd is False):
+                        Settings.debugfile = row[1]
                     else:
                         Debug.Info("Debug force from console. dont change value")
 
@@ -108,6 +129,6 @@ class Database(object):
             Database.DoUpgrade2()
              
     def DoUpgrade2():
-        print("upgrade 2")
+        Debug.Info("Running database upgrade 2")
            
 # aecs@pidev

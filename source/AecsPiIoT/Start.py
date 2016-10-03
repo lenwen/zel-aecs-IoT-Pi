@@ -84,7 +84,7 @@ def signal_handler(signal, frame):
     shutDown()
 
 #   On Board 1-Wire Init
-def OnBoardOneWireHandling():
+def OnBoardOneWireInit():
     if (Settings.OnBoardOneWireIsRunning):
         if (Settings.OnBoardOneWireShodBeRunning == False):
             #   On Board One Wire is running. but i shod NOT be running
@@ -94,7 +94,7 @@ def OnBoardOneWireHandling():
             #   On board One Wire shod be running.
             if ("onboardOneWire" in Settings.threads):
                 #   onboard One Wire is already init
-                if (Settings.threads["onboardOneWire"].running == False):
+                if (Settings.OnBoardOneWireIsRunning == False):
                     #   The thread is not running. start the Thread.
                     Settings.threads["onboardOneWire"].run()
             else:
@@ -102,6 +102,9 @@ def OnBoardOneWireHandling():
                 os.system('modprobe w1-gpio')  # Turns on the GPIO module
                 os.system('modprobe w1-therm') # Turns on the Temperature module
                 thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
+                # thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
+                
+                                                                  
                 thOnBoardOneWireHandling.start();
                 Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
 
@@ -139,11 +142,13 @@ def main():
     #   Init Database  And get settings from database
     Database.start()
     
-    time.sleep(5)
+    Debug.Info("Wait 2 sek")
+    time.sleep(2)
+
     while True:
         Debug.Info("While is running from start")
 
-        OnBoardOneWireHandling();
+        OnBoardOneWireInit();
 
         sdfsd = "dsfsdf"
         #for oneWire in sensorOneWireOnBoardDs18b20List:
