@@ -7,15 +7,17 @@ class SensorInfo(object):
     def __init__(self, id=int, type=str):
         self.id = id
         self.type = type
+        self.typeData = None
         self.enable = False
         self.name = "null"
         self.info = "null"
-        self.enable = True
         self.isWorking = True
-        self.collectValueTime = 0
+        self.collectTime = 0
+        self.collectValueTimer = 0
         self.saveRealTimeToDatabase = 0
         self.saveHistoryToDatabase = 0
-        self.typeOneWireOnBoardDs18b20 = OneWireOnBoardDs18b20Class
+        
+        #self.typeOneWireOnBoardDs18b20 = OneWireOnBoardDs18b20Class
         
         
 

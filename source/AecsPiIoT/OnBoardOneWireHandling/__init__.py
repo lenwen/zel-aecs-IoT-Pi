@@ -70,6 +70,7 @@ class OnBoardOneWireHandling (threading.Thread):
     
     def getFoldersToScan(self):
         #global sensorOneWireOnBoardDs18b20List, dir_OneWireOnBoard
+        
         folders = glob.glob(Settings.dir_OneWireOnBoard + '28*')
         for folder in folders:
             romeId = os.path.basename(folder)
