@@ -34,18 +34,25 @@ vsDebug = False
 #   Read and set CommandLine arguments
 for cmd in sys.argv:
     cmdLower = cmd.lower()
-    print(cmdLower)
+    #print(cmdLower)
     if cmdLower == "debugtoconsole":
         Settings.debugToConsole = True
         Settings.debugEnable = True
         Settings.debugForceFromCmd = True
-    if cmdLower == "debugtofile":
+    elif cmdLower == "debugtofile":
         Settings.debugToFile = True
         Settings.debugEnable = True
         Settings.debugForceFromCmd = True
-    if cmdLower == "vs":
+    elif cmdLower == "vs":
         vsDebug = True
         Settings.debugForceFromCmd = True
+    elif cmdLower != "start.py":
+        print("Error in starting values\nApplication will exit!")
+        sys.exit(0)
+
+#    else:
+
+
 
 #   if this is Vs debug on Ptvsd. init ptvsd and wait for debug connection
 if vsDebug:
