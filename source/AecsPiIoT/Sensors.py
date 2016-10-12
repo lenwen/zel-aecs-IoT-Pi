@@ -8,12 +8,12 @@ class SensorInfo(object):
         self.id = id
         self.type = type
         self.typeData = None
-        self.enable = False
+        self.enable = False #   Shod sensor be in use or not
         self.name = "null"
         self.info = "null"
-        self.isWorking = True
-        self.collectTime = 0
-        self.collectValueTimer = 0
+        self.isWorking = True   #   if read error from sensor – turn this to false
+        self.collectTime = 0    #   How often shod the value be read
+        self.collectValueTimer = 0  #   How long time it takes to read value
         self.saveRealTimeToDatabase = 0
         self.saveHistoryToDatabase = 0
         
@@ -22,12 +22,13 @@ class SensorInfo(object):
         
 
 class OneWireOnBoardDs18b20Class(object):
-    def __init__(self, romid=str, health=None, temp=None, lastchecked=None, status=None):
+    def __init__(self, romid=str, health=None, temp=None, lastchecked=None, status=None, existInFolder=True):
         self.romid = romid
         self.health = health
         self.temp = temp
         self.lastchecked = lastchecked
-        self.status = status
+        self.status = status    #   Status for the sensor [ missing, crc-error, ok ]
+        self.existInFolder = existInFolder  #   Do local folder exist for this sensor
 
 
 class SensorTempTest1Class(object):

@@ -43,8 +43,8 @@ class OnBoardOneWireHandling (threading.Thread):
                 self.getFoldersToScan()
                 FolderScanLastTime = time.time()
             
-            #for oneWire in sensorOneWireOnBoardDs18b20List:
             
+            #   forech onewire senor in sensorOneWireOnBoardDs18b20Dict
             for oneWire in sensorOneWireOnBoardDs18b20Dict:
                 returnId, returnStatus, returnTemp = self.readSensorData(sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.romid)
                 if returnStatus is "ERROR":
@@ -53,7 +53,7 @@ class OnBoardOneWireHandling (threading.Thread):
                 if returnStatus is "ERROR-CRC":
                     sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "crc-error"                    
                 if returnStatus is "OK":
-                    sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "OK"
+                    sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "ok"
                     sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = time.time()
                     Debug.Info("RomeId:" + str(oneWire) + " Value: " + str(returnTemp))
                 
