@@ -1,7 +1,9 @@
 ''' 
     SensorInfo types
     -   onewireonboardds18b20
+    aecs@pidev
 '''
+  
 
 class SensorInfo(object):
     def __init__(self, id=int, type=str):
@@ -19,7 +21,9 @@ class SensorInfo(object):
         
         #self.typeOneWireOnBoardDs18b20 = OneWireOnBoardDs18b20Class
         
-        
+class OneWireOnBoardDictClass(object):
+    def __init__(self, id=int):
+        self.id = id        
 
 class OneWireOnBoardDs18b20Class(object):
     def __init__(self, romid=str, health=None, temp=None, lastchecked=None, status=None, existInFolder=True):

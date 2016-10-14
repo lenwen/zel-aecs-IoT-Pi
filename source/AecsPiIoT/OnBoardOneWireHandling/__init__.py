@@ -7,7 +7,7 @@ import os
 
 from Settings import Settings
 from Debug import Debug
-from Sensors import OneWireOnBoardDs18b20Class, SensorInfo
+from Sensors import OneWireOnBoardDs18b20Class, SensorInfo, OneWireOnBoardDictClass
 
 #   Dict sensors ds18b20
 #   dict< romeId (string), class>
@@ -38,8 +38,8 @@ class OnBoardOneWireHandling (threading.Thread):
         while(Settings.OnBoardOneWireIsRunning):
             Debug.Info("board-Onewire| While running")
 
-            #print("running!!!!")
-            if time.time() - FolderScanLastTime > 60:
+            #   Do onewire folder need to be scanned
+            if time.time() - FolderScanLastTime > 60:   #TODO   move folder scan time to database settings
                 self.getFoldersToScan()
                 FolderScanLastTime = time.time()
             
@@ -68,26 +68,62 @@ class OnBoardOneWireHandling (threading.Thread):
         self.running = False;
         #return super().run()
     
+        #   Get OnBoard One-wire devices
     def getFoldersToScan(self):
-        #global sensorOneWireOnBoardDs18b20List, dir_OneWireOnBoard
         
+        Debug.Info("----> OneWire-Onboard Folder Scan is starting <----")
         folders = glob.glob(Settings.dir_OneWireOnBoard + '28*')
+        newRomeIdThatsNeedsToAdd = []
+
         for folder in folders:
             romeId = os.path.basename(folder)
-            #check if id exist or not in list
+
+            #check if romeid exist or not in list<romeid, OneWireOnBoardDictClass>
             idAlredyExist = False
+            
+
             if (romeId in sensorOneWireOnBoardDs18b20Dict):
                 #   Rome id already exist in dict
-                sensorOneWireOnBoardDs18b20Dict[romeId].enable = True
+                Settings.sensors[sensorOneWireOnBoardDs18b20Dict[romeId].id].typeData.existInFolder = True
+                # sensorOneWireOnBoardDs18b20Dict[romeId].enable = True
                 idAlredyExist = True
             else:
-                #   Sensor dont exist in local dict. Add the sensor
+                #   Sensor dont exist in Sensor information data. Add information.
+                newRomeIdThatsNeedsToAdd.append(romeId)
+
+        if newRomeIdThatsNeedsToAdd != None:
+
+            #   Do romeId exist in database?
+            conn = sqlite3.connect(Settings.dbfilename)
+            
+            for NewRomeId in newRomeIdThatsNeedsToAdd:
+                Debug.Info("Found OnBoard-OneWire Ds18b20 sensor. RomeId: " + NewRomeId)
+                
                 tmpDs18b20 = OneWireOnBoardDs18b20Class(romeId,0,"-999", 0,"found")
-                sensordata = SensorInfo(0,"onewireonboardds18b20")
-                sensordata.enable = True
-                sensordata.collectValueTime = 5
-                sensordata.typeOneWireOnBoardDs18b20 = tmpDs18b20
-                sensorOneWireOnBoardDs18b20Dict[romeId] = sensordata
+                tmpDs18b20.existInFolder = True
+
+                c = conn.cursor()
+                c.execute("select * from tblsensors where type = 'onewireonboardds18b20' and tag = '{rid}'".format(rid=NewRomeId))
+                tmpRowData =  c.fetchall()
+                if tmpRowData == None:
+                    #   Sensor dont exist in database
+                    Debug.Info("This is a new sensor that dont exist in database")
+                    Debug.Info("Adding to database")
+                    c.execute("insert into tblsensors (type,tag,name,info,enable,isworking,collectvaluetime,saverealtimetodatabase,savehistorytodatabase, sensorvalue1, sensorvalue2) VALUES();")
+                    #   Add information to database
+                    #   Add information to settings sensor
+                    #   add information to sensorOneWireOnBoardDs18b20Dict
+                else:
+                    #   Sensor already exist inside database
+                    Debug.Info(NewRomeId + "Already exist inside database")
+                print("sdfdsf")
+
+            
+            sensordata = SensorInfo(0,"onewireonboardds18b20")
+            sensordata.enable = True
+            sensordata.collectValueTime = 5
+            sensordata.typeOneWireOnBoardDs18b20 = tmpDs18b20
+            sensorOneWireOnBoardDs18b20Dict[romeId] = sensordata
 
                 #lid = cur.lastrowid
 
@@ -100,6 +136,7 @@ class OnBoardOneWireHandling (threading.Thread):
             #if idAlredyExist is False:
             #        # this id dont exist. add this id
             #        sensorOneWireOnBoardDs18b20List.append(SensorOneWireDs18b20Class(0,id,0,"-999",0,"new","new","new"))
+        Debug.Info("########")
 
     def readSensorData(self, sensorRomeId):
         text = '';
