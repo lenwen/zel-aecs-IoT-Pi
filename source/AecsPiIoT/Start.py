@@ -27,6 +27,7 @@ from DatabaseHandling import Database
 from Debug import Debug
 
 import OnBoardOneWireHandling
+import FlaskWeb
 
 commandline = sys.argv
 vsDebug = False
@@ -46,13 +47,20 @@ for cmd in sys.argv:
     elif cmdLower == "vs":
         vsDebug = True
         Settings.debugForceFromCmd = True
-    elif cmdLower != "start.py":
+    #elif cmdLower == @"c:\users\lennie\source\repos\zel-aecs-iot-pi\source\aecspiiot\start.py":
+    #    print("Running on vs local")
+
+#    elif cmdLower != "start.py":
+    elif cmdLower.endswith("start.py"):
+        print("dd")
+    else:
+        print(cmdLower)
         print("Error in starting values\nApplication will exit!")
         sys.exit(0)
 
 #    else:
 
-
+# c:\users\lennie\source\repos\zel-aecs-iot-pi\source\aecspiiot\start.py
 
 #   if this is Vs debug on Ptvsd. init ptvsd and wait for debug connection
 if vsDebug:
@@ -114,6 +122,10 @@ def OnBoardOneWireInit():
                                                                   
                 thOnBoardOneWireHandling.start();
                 Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
+def WebSiteInit():
+    thWebSite = FlaskWeb.WebSite("website")
+    thWebSite.start()
+    Settings.threads["website"] = thWebSite
 
 def GetPlatformRunningOn():
      #   Get os information
@@ -151,6 +163,8 @@ def main():
     
     Debug.Info("Wait 2 sek")
     time.sleep(2)
+
+    WebSiteInit();
 
     while True:
         Debug.Info("While is running from start")

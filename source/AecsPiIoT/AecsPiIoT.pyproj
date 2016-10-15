@@ -32,6 +32,12 @@
     <Compile Include="Debug\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FlaskWeb\views.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FlaskWeb\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="OnBoardOneWireHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -54,10 +60,16 @@
   <ItemGroup>
     <Folder Include="DatabaseHandling\" />
     <Folder Include="Debug\" />
+    <Folder Include="FlaskWeb\" />
+    <Folder Include="FlaskWeb\static\" />
+    <Folder Include="FlaskWeb\static\content\" />
     <Folder Include="Tests\" />
     <Folder Include="OnBoardOneWireHandling\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FlaskWeb\static\content\bootstrap.css" />
+    <Content Include="FlaskWeb\static\content\bootstrap.min.css" />
+    <Content Include="FlaskWeb\static\content\site.css" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <PropertyGroup>
