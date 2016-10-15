@@ -61,6 +61,7 @@
     <Folder Include="DatabaseHandling\" />
     <Folder Include="Debug\" />
     <Folder Include="FlaskWeb\" />
+    <Folder Include="FlaskWeb\templates\" />
     <Folder Include="FlaskWeb\static\" />
     <Folder Include="FlaskWeb\static\fonts\" />
     <Folder Include="FlaskWeb\static\content\" />
@@ -133,6 +134,21 @@
       <Publish>True</Publish>
     </Content>
     <Content Include="FlaskWeb\static\scripts\_references.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\about.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\contact.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\index.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\layout.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\sensors.html">
       <Publish>True</Publish>
     </Content>
     <Content Include="requirements.txt" />

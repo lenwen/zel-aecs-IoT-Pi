@@ -1,0 +1,33 @@
+﻿{% extends "layout.html" %}
+{% block head %}
+<meta http-equiv="refresh" content="2" />
+{% endblock %}
+
+{% block content %}
+
+<h1>Sensors</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        Här har vi sensor data
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group">
+            {% for key, value in sensdata.items() %}
+            <li class="list-group-item">
+                {{ value["id"] }} | {{ value["name"] }}  | {{ value["typeData"].temp }} | {{value["collectValueTimer"]}}
+            </li>
+        
+            
+                
+            
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

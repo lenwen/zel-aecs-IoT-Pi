@@ -15,6 +15,9 @@ class Settings(object):
 
     ApplicationShodEnd = False
 
+    #   Webserver settings
+    webSitePort = 80    #todo   get this value from database
+
     #   Sensor 1-Wire On Board settings
     OnBoardOneWireIsRunning = False
     OnBoardOneWireShodBeRunning = False

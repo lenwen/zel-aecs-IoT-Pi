@@ -29,6 +29,8 @@ from Debug import Debug
 import OnBoardOneWireHandling
 import FlaskWeb
 
+from multiprocessing import Process
+
 commandline = sys.argv
 vsDebug = False
 
@@ -89,8 +91,12 @@ def shutDown():
     Debug.Info("Wait 5 sec for threads to end")
     time.sleep(2);
 
+    #test1 = Process(Settings.threads["website"])
+    #test1.terminate()
+
     Debug.Info("Threads are joining before exit")
     for t in Settings.threads:
+        # Settings.threads[t].terminate()
         Settings.threads[t].join()
     sys.exit(0)
 
