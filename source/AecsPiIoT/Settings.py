@@ -26,7 +26,7 @@ class Settings(object):
     threads = {}  
 
     #   All sensors in system
-    #   Dict <sensorId (int), Sensorclass> 
+    #   Dict <sensorId (int), SensorInfo (class)> 
     sensors = {}
 
 

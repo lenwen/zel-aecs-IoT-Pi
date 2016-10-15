@@ -16,8 +16,9 @@ class SensorInfo(object):
         self.isWorking = True   #   if read error from sensor – turn this to false
         self.collectTime = 0    #   How often shod the value be read
         self.collectValueTimer = 0  #   How long time it takes to read value
-        self.saveRealTimeToDatabase = 0
-        self.saveHistoryToDatabase = 0
+        self.LastChecked = 0 #  When was is last checked (value read)
+        self.saveRealTimeToDatabase = False
+        self.saveHistoryToDatabase = False
         
         #self.typeOneWireOnBoardDs18b20 = OneWireOnBoardDs18b20Class
         
@@ -26,11 +27,10 @@ class OneWireOnBoardDictClass(object):
         self.id = id        
 
 class OneWireOnBoardDs18b20Class(object):
-    def __init__(self, romid=str, health=None, temp=None, lastchecked=None, status=None, existInFolder=True):
+    def __init__(self, romid=str, health=None, temp=None, status=None, existInFolder=True):
         self.romid = romid
         self.health = health
         self.temp = temp
-        self.lastchecked = lastchecked
         self.status = status    #   Status for the sensor [ missing, crc-error, ok ]
         self.existInFolder = existInFolder  #   Do local folder exist for this sensor
 

@@ -36,7 +36,7 @@ class OnBoardOneWireHandling (threading.Thread):
 
         FolderScanLastTime = 0;
         while(Settings.OnBoardOneWireIsRunning):
-            Debug.Info("board-Onewire| While running")
+            self.Info("board-Onewire| While running")
 
             #   Do onewire folder need to be scanned
             if time.time() - FolderScanLastTime > 60:   #TODO   move folder scan time to database settings
@@ -46,18 +46,27 @@ class OnBoardOneWireHandling (threading.Thread):
             
             #   forech onewire senor in sensorOneWireOnBoardDs18b20Dict
             for oneWire in sensorOneWireOnBoardDs18b20Dict:
-                returnId, returnStatus, returnTemp = self.readSensorData(sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.romid)
+                # returnId, returnStatus, returnTemp = self.readSensorData(sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.romid)
+                timeStarted = time.time()
+                returnId, returnStatus, returnTemp = self.readSensorData(Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.romid)
                 if returnStatus is "ERROR":
-                    sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "missing"
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "missing"
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = False
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.existInFolder = False
                     #oneWire.status = "missing"
                 if returnStatus is "ERROR-CRC":
-                    sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "crc-error"                    
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "crc-error"
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = False
                 if returnStatus is "OK":
-                    sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = "ok"
-                    sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.status = time.time()
-                    Debug.Info("RomeId:" + str(oneWire) + " Value: " + str(returnTemp))
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "ok"
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].LastChecked = time.time()
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = True
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.existInFolder = True
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.temp = returnTemp
+                    self.Info("RomeId:" + str(oneWire) + " Value: " + str(returnTemp))
                 
-                sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.temp = returnTemp
+                Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].collectValueTimer = time.time() - timeStarted
+                #sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.temp = returnTemp
             
             #   Time to wait befor next run    
             time.sleep(float(Settings.OnBoardOneWireWaitBetweenRun))
@@ -71,17 +80,17 @@ class OnBoardOneWireHandling (threading.Thread):
         #   Get OnBoard One-wire devices
     def getFoldersToScan(self):
         
-        Debug.Info("----> OneWire-Onboard Folder Scan is starting <----")
+        self.Info("----> OneWire-Onboard Folder Scan is starting <----")
         folders = glob.glob(Settings.dir_OneWireOnBoard + '28*')
         newRomeIdThatsNeedsToAdd = []
 
         for folder in folders:
             romeId = os.path.basename(folder)
 
-            #check if romeid exist or not in list<romeid, OneWireOnBoardDictClass>
+            
             idAlredyExist = False
             
-
+            #check if romeid exist or not in list<romeid, OneWireOnBoardDictClass>
             if (romeId in sensorOneWireOnBoardDs18b20Dict):
                 #   Rome id already exist in dict
                 Settings.sensors[sensorOneWireOnBoardDs18b20Dict[romeId].id].typeData.existInFolder = True
@@ -91,39 +100,99 @@ class OnBoardOneWireHandling (threading.Thread):
                 #   Sensor dont exist in Sensor information data. Add information.
                 newRomeIdThatsNeedsToAdd.append(romeId)
 
+        #   Do romid exist on device list<newRomeIdThatsNeedsToAdd>
         if newRomeIdThatsNeedsToAdd != None:
 
-            #   Do romeId exist in database?
+            
             conn = sqlite3.connect(Settings.dbfilename)
             
             for NewRomeId in newRomeIdThatsNeedsToAdd:
-                Debug.Info("Found OnBoard-OneWire Ds18b20 sensor. RomeId: " + NewRomeId)
+                self.Info("Found OnBoard-OneWire Ds18b20 sensor. RomeId: " + NewRomeId)
                 
                 tmpDs18b20 = OneWireOnBoardDs18b20Class(romeId,0,"-999", 0,"found")
                 tmpDs18b20.existInFolder = True
 
                 c = conn.cursor()
-                c.execute("select * from tblsensors where type = 'onewireonboardds18b20' and tag = '{rid}'".format(rid=NewRomeId))
-                tmpRowData =  c.fetchall()
-                if tmpRowData == None:
-                    #   Sensor dont exist in database
-                    Debug.Info("This is a new sensor that dont exist in database")
-                    Debug.Info("Adding to database")
-                    c.execute("insert into tblsensors (type,tag,name,info,enable,isworking,collectvaluetime,saverealtimetodatabase,savehistorytodatabase, sensorvalue1, sensorvalue2) VALUES();")
+                c.execute("select id, name,info,enable,isworking,collectvaluetime,saverealtimetodatabase,savehistorytodatabase, sensorvalue1 from tblsensors where type = 'onewireonboardds18b20' and tag = '{rid}'".format(rid=NewRomeId))
+                tmpRowData =  c.fetchone()
+                # tmpRowData =  c.fetchall()
+                
+                #   Do romeId exist in database?
+                if tmpRowData is None:      #   Sensor dont exist in database
+                    
+                    self.Info("This is a new sensor that dont exist in database")
+                    
                     #   Add information to database
+                    self.Info("Adding to database")
+                    sqlInsert = "insert into tblsensors (type,tag,name,info,enable,isworking,collectvaluetime,saverealtimetodatabase,savehistorytodatabase, sensorvalue1, sensorvalue2) VALUES('onewireonboardds18b20', '{romeId}', 'new', 'new', 1, 0, 60, 0, 0, '-999', 0)".format(romeId=NewRomeId)
+                    c.execute(sqlInsert)
+                    #c.execute("insert into tblsensors (type,tag,name,info,enable,isworking,collectvaluetime,saverealtimetodatabase,savehistorytodatabase, sensorvalue1, sensorvalue2) VALUES('onewireonboardds18b20', ?, 'new', 'new', 1, 1, 60, 0, 0, -999, 0);", (NewRomeId))
+                    newSensorId = c.lastrowid
+                    conn.commit()
+                    self.Info("Id: {lineId}  - RomeId: {lindeRid}".format(lineId=newSensorId, lindeRid=NewRomeId))
+                    #self.Info("ddddd")
+                    
                     #   Add information to settings sensor
+
+                    #   Create OneWireOnBoardDs18b20Class
+                    self.Info("Adding information to settings sensor information")
+                    sensordata = SensorInfo(newSensorId,"onewireonboardds18b20")
+                    sensordata.typeData = OneWireOnBoardDs18b20Class(NewRomeId,0,-999,"ok",True)
+                    sensordata.enable = True
+                    sensordata.name = "new"
+                    sensordata.info = "new"
+                    sensordata.isWorking = False
+                    sensordata.collectTime = 60
+                    sensordata.collectValueTimer = 0
+                    sensordata.LastChecked = 0
+                    sensordata.saveRealTimeToDatabase = False
+                    sensordata.saveHistoryToDatabase = False
+                    
+                    Settings.sensors[newSensorId] = sensordata
+
                     #   add information to sensorOneWireOnBoardDs18b20Dict
-                else:
-                    #   Sensor already exist inside database
-                    Debug.Info(NewRomeId + "Already exist inside database")
-                print("sdfdsf")
+                    self.Info("Add romeId to onboardOneWire dict")
+                    sensorOneWireOnBoardDs18b20Dict[NewRomeId] = OneWireOnBoardDictClass(newSensorId)
+
+
+                else:       #   Sensor already exist inside database
+                    self.Info(NewRomeId + "  Already exist inside database")
+                    #   id  name    info    enable  isworking   collectvaluetime    saverealtimetodatabase  savehistorytodatabase   sensorvalue1
+                    #   0   1       2       3       4           5                   6                       7                       8
+                    self.Info("Adding information to settings sensor information")
+                    sensordata = SensorInfo(tmpRowData[0],"onewireonboardds18b20")
+                    sensordata.typeData = OneWireOnBoardDs18b20Class(NewRomeId,0,tmpRowData[8],"ok",True)
+                    if tmpRowData[3] == 1:
+                        sensordata.enable = True
+                    else:
+                        sensordata.enable = False
+
+                    sensordata.name = tmpRowData[1]
+                    sensordata.info = tmpRowData[2]
+                    sensordata.isWorking = False
+                    sensordata.collectTime = tmpRowData[5]
+                    sensordata.collectValueTimer = 0
+                    sensordata.LastChecked = 0
+                    sensordata.saveRealTimeToDatabase = False   #todo fix this
+                    sensordata.saveHistoryToDatabase = False    #todo fix this
+                    
+                    Settings.sensors[tmpRowData[0]] = sensordata
+
+                    #   add information to sensorOneWireOnBoardDs18b20Dict
+                    self.Info("Add romeId to onboardOneWire dict")
+                    sensorOneWireOnBoardDs18b20Dict[NewRomeId] = OneWireOnBoardDictClass(tmpRowData[0])
+
+                    #rowId = tmpRowData[0]
+                    #rowName = tmpRowData["name"]
+                    self.Info("sdfsdf")
+
+                #print("sdfdsf")
 
             
-            sensordata = SensorInfo(0,"onewireonboardds18b20")
-            sensordata.enable = True
-            sensordata.collectValueTime = 5
-            sensordata.typeOneWireOnBoardDs18b20 = tmpDs18b20
-            sensorOneWireOnBoardDs18b20Dict[romeId] = sensordata
+            #sensordata = SensorInfo(0,"onewireonboardds18b20")
+            #sensordata.enable = True
+            #sensordata.typeOneWireOnBoardDs18b20 = tmpDs18b20
+            #sensorOneWireOnBoardDs18b20Dict[romeId] = sensordata
 
                 #lid = cur.lastrowid
 
@@ -136,7 +205,7 @@ class OnBoardOneWireHandling (threading.Thread):
             #if idAlredyExist is False:
             #        # this id dont exist. add this id
             #        sensorOneWireOnBoardDs18b20List.append(SensorOneWireDs18b20Class(0,id,0,"-999",0,"new","new","new"))
-        Debug.Info("########")
+        #Debug.Info("########")
 
     def readSensorData(self, sensorRomeId):
         text = '';
@@ -164,5 +233,13 @@ class OnBoardOneWireHandling (threading.Thread):
 
     def stop(self):
         Settings.OnBoardOneWireIsRunning = False
+
+    def Info(self, Text):
+        Debug.Info("OnBoardOneWire | {text}".format(text=Text))
+
+    def Warning(self, Text):
+        Debug.Warning("OnBoardOneWire | {text}".format(text=Text))    
     
+    def Error(self, Text):
+        Debug.Error("OnBoardOneWire | {text}".format(text=Text))
 
