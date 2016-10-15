@@ -62,14 +62,79 @@
     <Folder Include="Debug\" />
     <Folder Include="FlaskWeb\" />
     <Folder Include="FlaskWeb\static\" />
+    <Folder Include="FlaskWeb\static\fonts\" />
     <Folder Include="FlaskWeb\static\content\" />
+    <Folder Include="FlaskWeb\static\scripts\" />
     <Folder Include="Tests\" />
     <Folder Include="OnBoardOneWireHandling\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FlaskWeb\static\content\bootstrap.css" />
-    <Content Include="FlaskWeb\static\content\bootstrap.min.css" />
-    <Content Include="FlaskWeb\static\content\site.css" />
+    <Content Include="FlaskWeb\static\content\bootstrap.css">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\content\bootstrap.min.css">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\content\site.css">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\fonts\glyphicons-halflings-regular.eot">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\fonts\glyphicons-halflings-regular.svg">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\fonts\glyphicons-halflings-regular.ttf">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\fonts\glyphicons-halflings-regular.woff">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\bootstrap.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\bootstrap.min.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery-1.10.2.intellisense.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery-1.10.2.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery-1.10.2.min.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery-1.10.2.min.map">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery.validate-vsdoc.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery.validate.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery.validate.min.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery.validate.unobtrusive.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\jquery.validate.unobtrusive.min.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\modernizr-2.6.2.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\respond.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\respond.min.js">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\static\scripts\_references.js">
+      <Publish>True</Publish>
+    </Content>
     <Content Include="requirements.txt" />
   </ItemGroup>
   <PropertyGroup>
