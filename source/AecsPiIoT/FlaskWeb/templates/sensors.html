@@ -1,6 +1,6 @@
 ﻿{% extends "layout.html" %}
 {% block head %}
-<meta http-equiv="refresh" content="2" />
+<meta http-equiv="refresh" content="5" />
 {% endblock %}
 
 {% block content %}
@@ -17,6 +17,20 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="list-group">
+            <li class="list-group-item">
+                <div class="col-md-1">
+                    Id
+                </div>
+                <div class="col-md-2">
+                    Name
+                </div>
+                <div class="col-md-2">
+                    Info
+                </div>
+                <div class="col-md-2">
+                    Data
+                </div>
+            </li>
             {% for key, value in sensdata.items() %}
             <li class="list-group-item">
                 {{ value["id"] }} | {{ value["name"] }}  | {{ value["typeData"].temp }} | {{value["collectValueTimer"]}}
@@ -29,5 +43,16 @@
         </ul>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table">
+            ...
+          </table>
+        </div>
+    </div>
+</div>
+
 
 {% endblock %}

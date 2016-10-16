@@ -144,8 +144,10 @@ def GetPlatformRunningOn():
         Settings.dir_OneWireOnBoard = r'c:\\temp\\aecs\\onewire\\'
         Settings.debugfile = r'c:\\temp\aecs\\debug.log'
         Settings.dbfilename = Settings.dir_ConfigFiles + "aecs.db"
+        Settings.runningOnRaspberry = False
     else:
         Settings.dbfilename = Settings.dir_ConfigFiles + "aecs.db"
+        Settings.runningOnRaspberry = True
         
       
 #   Allow CTRL + c to shutdown the system
@@ -176,6 +178,12 @@ def main():
         Debug.Info("While is running from start")
 
         OnBoardOneWireInit();
+
+        if Settings.runningOnRaspberry:
+            #   Read raspbery pi int sensors
+            with open('/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq', 'r') as myfile:
+                data = myfile.read()  # .replace('\n', '')
+                Debug.Info("CPU: " + data)
 
         sdfsd = "dsfsdf"
         #for oneWire in sensorOneWireOnBoardDs18b20List:

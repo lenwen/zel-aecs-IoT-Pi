@@ -2,6 +2,7 @@ class Settings(object):
     version = '0.0.201609271808'
     osPlatform = ''
     osVersion = ''
+    runningOnRaspberry = False
     dir_OneWireOnBoard = '/sys/bus/w1/devices/'
     dir_ConfigFiles = '/etc/aecs/'
     dbfilename = ""
