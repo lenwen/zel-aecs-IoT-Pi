@@ -7,7 +7,7 @@ import os
 from Debug import Debug
 from Settings import Settings
 
-from Settings import Settings
+#from Settings import Settings
 
 conn = sqlite3
 

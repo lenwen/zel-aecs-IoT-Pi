@@ -33,7 +33,9 @@ class Settings(object):
     #   Dict <sensorId (int), SensorInfo (class)> 
     sensors = {}
 
-
+    #   All relay in system
+    #   Dict <relayId (int), relayHandling (class)>
+    relays = {}
     
 
     # aecs@pidev

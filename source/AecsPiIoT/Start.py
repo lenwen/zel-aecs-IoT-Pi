@@ -25,6 +25,7 @@ from _ast import Str
 from Settings import Settings
 from DatabaseHandling import Database
 from Debug import Debug
+from RelayHandling import RelayHandling,RelaysDataClass, GPIO
 
 import OnBoardOneWireHandling
 import FlaskWeb
@@ -54,7 +55,8 @@ for cmd in sys.argv:
 
 #    elif cmdLower != "start.py":
     elif cmdLower.endswith("start.py"):
-        print("dd")
+        tmpdd = ""
+        #print("dd")
     else:
         print(cmdLower)
         print("Error in starting values\nApplication will exit!")
@@ -164,13 +166,22 @@ def main():
     #   Get platform information
     GetPlatformRunningOn()
 
-    
+    #   Setup Grip as BCM
+    GPIO.setmode(GPIO.BCM)
 
     #   Init Database  And get settings from database
     Database.start()
     
     Debug.Info("Wait 2 sek")
     time.sleep(2)
+
+    #   Setup 2 relay to test
+    tmprel1 = RelayHandling(1)
+    tmprel1.Init(21, 1, False,False,1)
+    Settings.relays[1] = tmprel1
+    tmprel2 = RelayHandling(2)
+    tmprel2.Init(20,1,False,False,1)
+    Settings.relays[2] = tmprel2
 
     WebSiteInit();
     time.sleep(2)
@@ -198,6 +209,15 @@ def main():
         #aa.test();
         
         time.sleep(5)
+        if Settings.relays[1].Data.IsOn:
+            Settings.relays[1].TurnOff(0,False)
+        else:
+            Settings.relays[1].TurnOn(0,False)
+        
+        if Settings.relays[2].Data.IsOn:
+            Settings.relays[2].TurnOff(0,False)
+        else:
+            Settings.relays[2].TurnOn(0,False)
 
     Debug.Info("Ending")
     
