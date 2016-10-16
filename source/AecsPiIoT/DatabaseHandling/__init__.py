@@ -45,9 +45,14 @@ class Database(object):
 
             c.execute("CREATE TABLE `tblsensors` (`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,	`type`	TEXT NOT NULL,	`tag`	TEXT NOT NULL,	`name`	TEXT,	`info`	TEXT,	`enable`	INTEGER NOT NULL DEFAULT 0,	`isworking`	INTEGER NOT NULL DEFAULT 0,	`collectvaluetime`	INTEGER NOT NULL DEFAULT 0,	`saverealtimetodatabase`	INTEGER NOT NULL DEFAULT 0,	`savehistorytodatabase`	INTEGER NOT NULL DEFAULT 0,	`sensorvalue1`	REAL,	`sensorvalue2`	REAL);")
             c.execute("CREATE INDEX `sensormatch` ON `tblsensors` (`type` ASC,`tag` ASC);")
+            c.execute("INSERT INTO SQLITE_SEQUENCE VALUES('tblsensors',1000);")
+
+            #c.execute("UPDATE SQLITE_SEQUENCE SET seq = 1000 WHERE name = 'tblsensors'")
             conn.commit()
             c.close()
-            dsfdsfdsf = "sdfsdf"
+            #   bugfix for sqllite seq
+            # http://stackoverflow.com/questions/692856/set-start-value-for-autoincrement-in-sqlite
+            # INSERT INTO sqlite_sequence (name,seq) SELECT '<table>', <n> WHERE NOT EXISTS (SELECT changes() AS change FROM sqlite_sequence WHERE change <> 0);
         
         c = conn.cursor()
         c.execute("SELECT data FROM tblsettings where name = 'dbversion';")
