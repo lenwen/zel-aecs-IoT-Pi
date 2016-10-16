@@ -173,6 +173,7 @@ def main():
     time.sleep(2)
 
     WebSiteInit();
+    time.sleep(2)
 
     while True:
         Debug.Info("While is running from start")
