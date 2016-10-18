@@ -1,6 +1,7 @@
 """
 The flask application package.
 """
+import time
 import requests
 import urllib.parse
 from os import environ
@@ -8,6 +9,9 @@ import threading
 from flask import Flask
 app = Flask(__name__)
 import FlaskWeb.views
+#import FlaskWeb.api
+from Debug import Debug
+
 from flask import request
 from Settings import Settings
 
@@ -35,7 +39,12 @@ class WebSite (threading.Thread):
     #    func()
 
     def stop(self):
+        Debug.Info("website | stopping")
         urltostop = "http://localhost:" + str(Settings.webSitePort) + "/sleoffieh38dewd" 
+        requests.get(urltostop)
         requests.post(urltostop)
+        Debug.Info("website | Wait 2 sek befor resend website stop command")
+        time.sleep(2)
+        
         #self.shutdown_server()
-        print("sdfdsf")
+        Debug.Info("website | has stoped")

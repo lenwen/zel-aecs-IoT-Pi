@@ -1,0 +1,72 @@
+﻿{% extends "layout.html" %}
+{% block head %}
+<meta http-equiv="refresh" content="5" />
+{% endblock %}
+
+{% block content %}
+
+<h1>Relay status</h1>
+
+<div class="row">
+    <div class="col-md-12">
+       Relay information.
+
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>On/Off</th>
+                        <th>Options</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, value in relaydata.items() %}
+                        <tr>
+                            <td>{{value["relayId"]}}</td>
+                            <td>{{value["Name"]}}</td>
+
+                            <!--<td>{{value["Data"].GpioPin}}</td>-->
+                            <td>
+                                {% if value["Data"].IsOn == True %}
+                                    On
+                                {% else %}
+                                    Off
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if value["Data"].Mode == 3 %}
+                                    Used by system
+                                {% else %}
+                                    {% if value["Data"].IsOn == True %}
+                                        <a href="/api/relay/actions?key={{accesskey}}&relayid={{key}}&option=off&page=/relays">Turn off</a>
+                                        
+                                    {% else %}
+                                        <a href="/api/relay/actions?key={{accesskey}}&relayid={{key}}&option=on&page=/relays">Turn on</a>
+                                    {% endif %}
+
+                                {% endif %}
+                                <!--{{value["Data"].Mode}}-->
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              
+
+
+          </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

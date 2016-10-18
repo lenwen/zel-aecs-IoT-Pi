@@ -152,7 +152,13 @@
     <Content Include="FlaskWeb\templates\layout.html">
       <Publish>True</Publish>
     </Content>
+    <Content Include="FlaskWeb\templates\relays.html">
+      <Publish>True</Publish>
+    </Content>
     <Content Include="FlaskWeb\templates\sensors.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\testpage.html">
       <Publish>True</Publish>
     </Content>
     <Content Include="requirements.txt" />

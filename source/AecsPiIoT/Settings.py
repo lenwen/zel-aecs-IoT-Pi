@@ -26,6 +26,9 @@ class Settings(object):
     OnBoardOneWireSensorDs18b20CrcWaitingTime = 5
     OnBoardOneWireSensorDs18b20MissingTime = 30
 
+    #   Security information
+    keyAccess = "jdiieh39sa"
+
     #   All threads that is running in system
     threads = {}  
 

@@ -7,10 +7,12 @@ class RelayHandling(object):
         self.relayId = relayId
         self.IsInit = False
         self.Data = None
+        self.Name = None
+        self.NameInfo = None
         
         #self.gpioPin = gpioPin
 
-    def Init(self, gpioPin = int, type=int, SetOn=bool, isLocked = bool, mode=int ):
+    def Init(self, gpioPin = int, type=int, SetOn=bool, enable=bool, isLocked = bool, mode=int ):
         if self.Init is True:
             self.Error("This Relay is already init")
         else:
@@ -23,11 +25,14 @@ class RelayHandling(object):
                 GPIO.setup(self.Data.GpioPin, GPIO.OUT, initial=0)
             else:
                 self.Error("Relay type error!!!")
+            self.Data.Enable = enable
+            self.Data.IsLocked = isLocked
+            self.Data.Mode = mode
 
             if SetOn is True:
-                self.TurnOn(0,True)
+                self.TurnOn(True)
             else:
-                self.TurnOff(0,True)
+                self.TurnOff(True)
 
             
             
@@ -35,7 +40,7 @@ class RelayHandling(object):
         print("Init")
         
 
-    def TurnOn(self, time=int, force=bool):
+    def TurnOn(self, force=bool):
         self.Info("TurnOn")
         if self.Data.Type == 1:
             GPIO.output(self.Data.GpioPin, GPIO.LOW)
@@ -45,7 +50,7 @@ class RelayHandling(object):
             self.Error("Relay type error.")
         self.Data.IsOn = True
 
-    def TurnOff(self, time=int, force=bool):
+    def TurnOff(self, force=bool):
         self.Info("TurnOff")
         if self.Data.Type == 1:
             GPIO.output(self.Data.GpioPin, GPIO.HIGH)
@@ -54,6 +59,14 @@ class RelayHandling(object):
         else:
             self.Error("Relay type error.")
         self.Data.IsOn = False
+
+    def Switch(self, force=bool):
+        if self.Data.IsOn is True:
+            self.TurnOff(force)
+        else:
+            self.TurnOn(force)
+    
+
 
     
     def Info(self, Text):
@@ -73,4 +86,5 @@ class RelaysDataClass(object):
         #self.IsInit = False
         self.IsOn = False
         self.IsLocked = False
+        self.Enable = False
         self.Mode = 1   #   1= Manuel | 2  = semi | 3 = Auto

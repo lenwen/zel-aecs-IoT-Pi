@@ -177,11 +177,14 @@ def main():
 
     #   Setup 2 relay to test
     tmprel1 = RelayHandling(1)
-    tmprel1.Init(21, 1, False,False,1)
+    tmprel1.Init(21, 1, True, True, False,1)
     Settings.relays[1] = tmprel1
     tmprel2 = RelayHandling(2)
-    tmprel2.Init(20,1,False,False,1)
+    tmprel2.Init(20,1,False, True,False,1)
     Settings.relays[2] = tmprel2
+    tmprel3 = RelayHandling(3)
+    tmprel3.Init(16,1,False, True,False,2)
+    Settings.relays[3] = tmprel3
 
     WebSiteInit();
     time.sleep(2)
@@ -209,15 +212,18 @@ def main():
         #aa.test();
         
         time.sleep(5)
-        if Settings.relays[1].Data.IsOn:
-            Settings.relays[1].TurnOff(0,False)
-        else:
-            Settings.relays[1].TurnOn(0,False)
+        #   Relay testing code
+        #Settings.relays[1].Switch(True)
+        #Settings.relays[2].Switch(True)
+        #if Settings.relays[1].Data.IsOn:
+        #    Settings.relays[1].TurnOff(0,False)
+        #else:
+        #    Settings.relays[1].TurnOn(0,False)
         
-        if Settings.relays[2].Data.IsOn:
-            Settings.relays[2].TurnOff(0,False)
-        else:
-            Settings.relays[2].TurnOn(0,False)
+        #if Settings.relays[2].Data.IsOn:
+        #    Settings.relays[2].TurnOff(0,False)
+        #else:
+        #    Settings.relays[2].TurnOn(0,False)
 
     Debug.Info("Ending")
     
