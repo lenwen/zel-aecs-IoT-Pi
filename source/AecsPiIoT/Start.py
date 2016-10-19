@@ -170,6 +170,9 @@ def main():
     GPIO.setmode(GPIO.BCM)
     Settings.rpi_Revision = str(GPIO.RPI_REVISION)
 
+    #TODO   Run some test to see that everthing is OK
+
+
     #   Init Database  And get settings from database
     Database.start()
     

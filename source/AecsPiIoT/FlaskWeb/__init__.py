@@ -28,6 +28,8 @@ class WebSite (threading.Thread):
         except ValueError:
             PORT = 5555
         #app.run(HOST, PORT)
+        #app.debug = True
+        app.secret_key = 's3cr3t'
         app.run('0.0.0.0', PORT, None )
 
 

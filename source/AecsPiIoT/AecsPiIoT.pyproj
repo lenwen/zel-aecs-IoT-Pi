@@ -32,6 +32,9 @@
     <Compile Include="Debug\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FlaskWeb\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FlaskWeb\views.py">
       <SubType>Code</SubType>
     </Compile>
@@ -153,6 +156,9 @@
       <Publish>True</Publish>
     </Content>
     <Content Include="FlaskWeb\templates\relays.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\relaysadd.html">
       <Publish>True</Publish>
     </Content>
     <Content Include="FlaskWeb\templates\sensors.html">

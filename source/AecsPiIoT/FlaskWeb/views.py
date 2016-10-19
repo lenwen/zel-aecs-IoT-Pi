@@ -3,10 +3,11 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template, request, jsonify, redirect
+from flask import render_template, request, jsonify, redirect, flash
 from FlaskWeb import app
 from Settings import Settings
 import json
+from .forms import RelayAddForm
 
 
 # from FlaskWebProject1 import app
@@ -84,6 +85,20 @@ def shutdown_server():
 def shutdown():
     shutdown_server()
     return 'Server shutting down...'
+
+#   ==============================================================================================
+#   Form data requests
+#   ----------------------------------------------------------------------------------------------
+@app.route('/relays/add', methods=['GET', 'POST'])
+def relayadd():
+    form = RelayAddForm()
+    if form.validate_on_submit():
+        flash("hej")
+    return render_template('relaysadd.html',
+        title='Sign In',
+        form=form)
+
+    
 
 #   ==============================================================================================
 #   Api requests
