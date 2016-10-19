@@ -1,8 +1,12 @@
 class Settings(object):
     version = '0.0.201609271808'
+    versionNice = 'Version 0.0 Build x'
     osPlatform = ''
     osVersion = ''
+    rpi_Revision = "-99"  # Possible answers are 0 = Compute Module, 1 = Rev 1, 2 = Rev 2, 3 = Model B+/A+
     runningOnRaspberry = False
+
+
     dir_OneWireOnBoard = '/sys/bus/w1/devices/'
     dir_ConfigFiles = '/etc/aecs/'
     dbfilename = ""

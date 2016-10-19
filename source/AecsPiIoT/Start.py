@@ -168,6 +168,7 @@ def main():
 
     #   Setup Grip as BCM
     GPIO.setmode(GPIO.BCM)
+    Settings.rpi_Revision = str(GPIO.RPI_REVISION)
 
     #   Init Database  And get settings from database
     Database.start()
