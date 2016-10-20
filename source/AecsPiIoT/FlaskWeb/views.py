@@ -5,10 +5,11 @@ Routes and views for the flask application.
 from datetime import datetime
 from flask import render_template, request, jsonify, redirect, flash
 from FlaskWeb import app
-from Settings import Settings
-import json
 from .forms import RelayAddForm
 
+import sqlite3
+from Settings import Settings
+import json
 
 # from FlaskWebProject1 import app
 
@@ -92,8 +93,50 @@ def shutdown():
 @app.route('/relays/add', methods=['GET', 'POST'])
 def relayadd():
     form = RelayAddForm()
+
+    #   Get free grioPorts 
+    conn = sqlite3.connect(Settings.dbfilename)
+    c = conn.cursor()
+    c.execute("select physical, bcm, wpi, name from tblgpiolayout where inuse = 0 and name like 'GPIO%' order by bcm")
+    rows = c.fetchall()
+    if rows is None:
+        return redirect("/relays/nofreegpios")
+    test1 = []
+    for row in rows:
+        test1.append((row[0], row[3]))
+
+    form.bmcnr.choices = test1
+
     if form.validate_on_submit():
         flash("hej")
+    else:
+        form.name.data = "ss"
+        #   select * from tblgpiolayout where inuse = 0 and name like "GPIO%" order by bcm
+    
+        
+    
+    state_names = []
+
+    
+
+    #for row in rows:
+    #    state_names.append(row[0])
+        
+
+#    >>> combs = []
+#>>> for x in [1,2,3]:
+#...     for y in [3,1,4]:
+#...         if x != y:
+#...             combs.append((x, y))
+#...
+#>>> combs
+#[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+    
+    #state_choices = list(enumerate(state_names))    
+    
+    #form.bmcnr.choices = state_choices
+    
+    
     return render_template('relaysadd.html',
         title='Sign In',
         form=form)
