@@ -9,6 +9,7 @@ from .forms import RelayAddForm
 
 import sqlite3
 from Settings import Settings
+from DatabaseHandling import dbTblGpioLayout
 import json
 
 # from FlaskWebProject1 import app
@@ -65,6 +66,15 @@ def relays():
         accesskey = Settings.keyAccess
     )
 
+@app.route('/relays/nofreegpios')
+def relaysnofreegrio():
+    """Renders the about page."""
+    return render_template(
+        'relaysnofreegpios.html',
+        title='Relay information - No Free Gpio Exist',
+        year=datetime.now().year,
+    )
+
 @app.route('/testpage')
 def testpage():
     """Renders the home page."""
@@ -94,18 +104,12 @@ def shutdown():
 def relayadd():
     form = RelayAddForm()
 
-    #   Get free grioPorts 
-    conn = sqlite3.connect(Settings.dbfilename)
-    c = conn.cursor()
-    c.execute("select physical, bcm, wpi, name from tblgpiolayout where inuse = 0 and name like 'GPIO%' order by bcm")
-    rows = c.fetchall()
-    if rows is None:
+    bmcnrValues = dbTblGpioLayout.dbTblGpioLayout.GetFreeGpioPortAsSelectedList()
+        
+    if bmcnrValues is None:
         return redirect("/relays/nofreegpios")
-    test1 = []
-    for row in rows:
-        test1.append((row[0], row[3]))
 
-    form.bmcnr.choices = test1
+    form.bmcnr.choices = bmcnrValues
 
     if form.validate_on_submit():
         flash("hej")

@@ -10,10 +10,14 @@ from wtforms.validators import DataRequired
 
 class RelayAddForm(Form):
     #openid = StringField('openid', validators=[DataRequired()])
-    name = StringField('name', validators=[DataRequired()])
-    isenable = BooleanField('isenable', default=False)
+    relname = StringField('relname', validators=[DataRequired()])
+    relnameinfo = StringField('relnameinfo', validators=[DataRequired()])
+    relenable = BooleanField('relenable', default=False)
+    relstartason = BooleanField('relstartason', default=False)
+    relstartaslastvalue = BooleanField('relstartaslastvalue', default=False)
     # bmcnr = SelectField(label="bmcnr", coerce=int)  #   http://stackoverflow.com/questions/22364551/creating-flask-form-with-selects-from-more-than-one-table
-    bmcnr = SelectField(label="bmcnr",  coerce=int)
+    relbmcnr = SelectField(label="relbmcnr",  coerce=int)
+    reltype = SelectField(label="reltype", choices = [('1', 'Off = High signal (1) | On = low signal(0)'), ('2', 'Off = Low signal (0) | On = High signal(0)')])
     #bmcnr = SelectField(label="bmcnr", coerce=int, choices = [('0', 'not')]) 
     #bmcnr = SelectField('bmcnr', choices = [('cpp', 'C++'), ('py', 'Python')])
 

@@ -26,6 +26,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DatabaseHandling\dbTblGpioLayout.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DatabaseHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -161,6 +164,7 @@
     <Content Include="FlaskWeb\templates\relaysadd.html">
       <Publish>True</Publish>
     </Content>
+    <Content Include="FlaskWeb\templates\relaysnofreegpios.html" />
     <Content Include="FlaskWeb\templates\sensors.html">
       <Publish>True</Publish>
     </Content>
