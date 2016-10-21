@@ -1,6 +1,7 @@
 #Enable when running debug on raspberry pi
 
 #GPIO = None
+#BUG fix python requirements
 import RPi.GPIO as GPIO
 
 #try:
