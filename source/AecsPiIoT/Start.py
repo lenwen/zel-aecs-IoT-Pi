@@ -127,7 +127,8 @@ def OnBoardOneWireInit():
                 os.system('modprobe w1-therm') # Turns on the Temperature module
                 thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
                 # thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
-                
+    
+            
                                                                   
                 thOnBoardOneWireHandling.start();
                 Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
@@ -168,8 +169,12 @@ def main():
     GetPlatformRunningOn()
 
     #   Setup Grip as BCM
-    GPIO.setmode(GPIO.BCM)
-    Settings.rpi_Revision = str(GPIO.RPI_REVISION)
+    if Settings.runningOnRaspberry:
+        GPIO.setmode(GPIO.BCM)
+        Settings.rpi_Revision = str(GPIO.RPI_REVISION)
+    else:
+        Settings.rpi_Revision = "3"
+
 
     #TODO   Run some test to see that everthing is OK
 
