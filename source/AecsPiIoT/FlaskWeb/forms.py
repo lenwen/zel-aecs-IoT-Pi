@@ -11,7 +11,7 @@ from wtforms.validators import DataRequired
 class RelayAddForm(Form):
     #openid = StringField('openid', validators=[DataRequired()])
     relname = StringField('relname', validators=[DataRequired()])
-    relnameinfo = StringField('relnameinfo', validators=[DataRequired()])
+    relnameinfo = StringField('relnameinfo')
     relenable = BooleanField('relenable', default=False)
     relstartason = BooleanField('relstartason', default=False)
     relstartaslastvalue = BooleanField('relstartaslastvalue', default=False)

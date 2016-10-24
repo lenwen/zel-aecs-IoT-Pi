@@ -113,11 +113,9 @@ def relayadd():
 
     if form.validate_on_submit():
         flash("hej")
-    else:
-        form.name.data = "ss"
+
         #   select * from tblgpiolayout where inuse = 0 and name like "GPIO%" order by bcm
-    
-        
+         
     
     state_names = []
 

@@ -12,19 +12,40 @@
         Relay add.
 
         <form action="" method="post" name="relayadd">
-              {{ form.hidden_tag() }}
-              <p>
-                  Namn:<br>
-                  {{ form.relname(size=80) }}<br>
-                  {% for error in form.name.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                  {% endfor %}<br>
-              </p>
+            
+            {{ form.hidden_tag() }}
+            <p>
+                Namn:<br>
+                {{ form.relname(size=80) }}<br>
+                {% for error in form.relname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}<br>
+            </p>
+            <p>
+                Info:<br>
+                {{ form.relnameinfo(size=200) }}<br>
+                {% for error in form.relnameinfo.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}<br>
+            </p>
+            <p>
+                  {{ form.relenable }} Enable ?
+            </p>
+            <p>
+                  {{ form.relstartason }} Start as on ?
+            </p>
+            <p>
+                  {{ form.relstartaslastvalue }} Start as last value ?
+            </p>                                                        
             <p>
                 {{form.relbmcnr}} Language
             </p>
-              <p>{{ form.relenable }} Enable ?</p>
-              <p><input type="submit" value="Add"></p>
+            <p>
+                {{form.reltype}} Language
+            </p>
+            <p>
+                <input type="submit" value="Add">
+            </p>
         </form>
     </div>
 </div>
