@@ -15,15 +15,15 @@
               {{ form.hidden_tag() }}
               <p>
                   Namn:<br>
-                  {{ form.name(size=80) }}<br>
+                  {{ form.relname(size=80) }}<br>
                   {% for error in form.name.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                   {% endfor %}<br>
               </p>
             <p>
-                {{form.bmcnr}} Language
+                {{form.relbmcnr}} Language
             </p>
-              <p>{{ form.isenable }} Enable ?</p>
+              <p>{{ form.relenable }} Enable ?</p>
               <p><input type="submit" value="Add"></p>
         </form>
     </div>
