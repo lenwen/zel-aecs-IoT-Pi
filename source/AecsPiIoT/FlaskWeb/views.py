@@ -109,7 +109,7 @@ def relayadd():
     if bmcnrValues is None:
         return redirect("/relays/nofreegpios")
 
-    form.bmcnr.choices = bmcnrValues
+    form.relbmcnr.choices = bmcnrValues
 
     if form.validate_on_submit():
         flash("hej")

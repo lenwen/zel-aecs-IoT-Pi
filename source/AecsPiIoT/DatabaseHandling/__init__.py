@@ -99,7 +99,8 @@ class Database(object):
                 elif matchWord == "debugfile":
                     Debug.Info("debugfile found in database")
                     if (Settings.debugForceFromCmd is False):
-                        Settings.debugfile = row[1]
+                        if Settings.runningOnRaspberry is True:
+                            Settings.debugfile = row[1]
                     else:
                         Debug.Info("Debug force from console. dont change value")
 
