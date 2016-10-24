@@ -6,6 +6,8 @@ class Settings(object):
     rpi_Revision = "-99"  # Possible answers are 0 = Compute Module, 1 = Rev 1, 2 = Rev 2, 3 = Model B+/A+
     runningOnRaspberry = False
 
+    #   Node information
+    nodeName = "aecs"
 
     dir_OneWireOnBoard = '/sys/bus/w1/devices/'
     dir_ConfigFiles = '/etc/aecs/'

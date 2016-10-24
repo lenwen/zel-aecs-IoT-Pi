@@ -61,7 +61,7 @@ def relays():
     return render_template(
         'relays.html',
         title='Relay information',
-        year=datetime.now().year,
+        nodename=Settings.nodeName,
         relaydata = Settings.relays,
         accesskey = Settings.keyAccess
     )
@@ -72,7 +72,6 @@ def relaysnofreegrio():
     return render_template(
         'relaysnofreegpios.html',
         title='Relay information - No Free Gpio Exist',
-        year=datetime.now().year,
     )
 
 @app.route('/testpage')
