@@ -9,7 +9,7 @@ from .forms import RelayAddForm
 
 import sqlite3
 from Settings import Settings
-from DatabaseHandling import dbTblGpioLayout
+from DatabaseHandling import dbTblGpioLayout, dbTblRelays
 import json
 
 # from FlaskWebProject1 import app
@@ -137,6 +137,7 @@ def relayadd():
         print("hej")
 
         #   Add relay information to database.
+        relayId = dbTblRelays.dbTblRelays.AddRelay(str(form.relbmcnr.data),str(form.reltype.data),"1",form.relenable.data,form.relstartason.data, form.relstartaslastvalue.data, False, form.relname.data, form.relnameinfo.data)
         break
 
         #flash("hej")

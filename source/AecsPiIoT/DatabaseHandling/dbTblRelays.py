@@ -29,7 +29,7 @@ class dbTblRelays(object):
     def AddRelay(pgioPin = str, type = str, mode = str, isenable = bool, startason = bool, startaslastvalue = bool, loghistorytodatabase = bool, name = str, nameinfo = str):
         print("sdfdsf")
         conn = sqlite3.connect(Settings.dbfilename)
-        c = connUpdate.cursor()
+        c = conn.cursor()
         sqlstring = "INSERT INTO 'tblrelays' (gpiopin,type ,mode ,isenable ,startason ,startaslastvalue , isonnow,loghistorytodatabase, name ,nameinfo) VALUES ("
         sqlstring += "'{}',".format(pgioPin)
         sqlstring += "'{}',".format(type)
@@ -37,7 +37,7 @@ class dbTblRelays(object):
         sqlstring += "'{}',".format(isenable)
         sqlstring += "'{}',".format(startason)
         sqlstring += "'{}',".format(startaslastvalue)
-        sqlstring += "'0',".format(isonnow)
+        sqlstring += "'0',"                                         # isonnow)
         sqlstring += "'{}',".format(loghistorytodatabase)
         sqlstring += "'{}',".format(name)
         if nameinfo is None:
@@ -49,8 +49,8 @@ class dbTblRelays(object):
         
         c.execute(sqlstring)
         newrelayId = str(c.lastrowid)
-        coon.commit()
-        coon.close()
+        conn.commit()
+        c.close()
         return newrelayId
 
 
