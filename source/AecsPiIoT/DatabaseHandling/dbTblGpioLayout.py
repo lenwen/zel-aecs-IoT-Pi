@@ -25,5 +25,41 @@ class dbTblGpioLayout(object):
         
         return test1
 
+    def IsPhysicalPortFree(phyId = str):
+        if phyId is None:
+            return False
+
+        conn = sqlite3.connect(Settings.dbfilename)
+        c = conn.cursor()
+        c.execute("select * from tblgpiolayout where physical = '{}' and inuse = 0;".format(phyId))
+        rows = c.fetchall()
+        c.close()
+        if rows is None:
+            return False
+        if len(rows) == 1:
+            return True
+
+        if rows.count == 1:
+            return True
+
+        return False
+
+    def SetPhysicalPortInUseStatus(phyId = str, inUse = bool):
+        conn = sqlite3.connect(Settings.dbfilename)
+        c = conn.cursor()
+        sqlString = "UPDATE tblgpiolayout SET inuse = "
+        if inUse is True:
+            sqlString += "1 "
+        else:
+            sqlString += "0 "
+
+        sqlString += " where physical = '{}';".format(phyId)
+        c.execute(sqlString)
+        conn.commit()
+        c.close()
+
+
+
+
 
 

@@ -26,22 +26,35 @@
                 {{ form.relnameinfo(size=200) }}<br>
                 {% for error in form.relnameinfo.errors %}
                 <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}<br>
+                {% endfor %}
             </p>
             <p>
-                  {{ form.relenable }} Enable ?
+                  Enable ? {{ form.relenable }} 
             </p>
             <p>
-                  {{ form.relstartason }} Start as on ?
+                Shod this relay start as on whit system restarts ?
+                {{ form.relstartason }} 
+                {% for error in form.relstartason.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </p>
             <p>
-                  {{ form.relstartaslastvalue }} Start as last value ?
+                Shod this relay start whit last value when system restarts ?
+                {{ form.relstartaslastvalue }}
+                {% for error in form.relstartaslastvalue.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </p>                                                        
             <p>
-                {{form.relbmcnr}} Language
+                Select a free port that relay is connected to ?
+                {{form.relbmcnr}}
+                {% for error in form.relbmcnr.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </p>
             <p>
-                {{form.reltype}} Language
+                Relay type ? 
+                {{form.reltype}}
             </p>
             <p>
                 <input type="submit" value="Add">

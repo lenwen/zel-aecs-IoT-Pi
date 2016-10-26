@@ -103,6 +103,8 @@ def shutdown():
 def relayadd():
     form = RelayAddForm()
 
+    errorInForm = False
+
     bmcnrValues = dbTblGpioLayout.dbTblGpioLayout.GetFreeGpioPortAsSelectedList()
         
     if bmcnrValues is None:
@@ -110,13 +112,44 @@ def relayadd():
 
     form.relbmcnr.choices = bmcnrValues
 
-    if form.validate_on_submit():
-        flash("hej")
+    
+
+    
+    while form.validate_on_submit():
+        if form.relstartason.data is True:
+            if form.relstartaslastvalue.data is True:
+                #   Error. relay canot be true in this 2 options
+                errorInForm = True
+                form.relstartason.errors.append("This cannot be selected when (start whit last value is selected)!!!")
+                form.relstartaslastvalue.errors.append("This cannot be selected when (start as on is selected)!!!")
+                break
+        print("port: " + str(form.relbmcnr.data))
+        print("type: " + str(form.reltype.data))
+        #   Check if Pi physical port is stile free.
+        if dbTblGpioLayout.dbTblGpioLayout.IsPhysicalPortFree(str(form.relbmcnr.data)) is False:
+            #   Port is not free. show error
+            form.relbmcnr.errors.append("There is an error whit selected port. Select another port!")
+            break
+        
+        #   Set Physical port in use
+        dbTblGpioLayout.dbTblGpioLayout.SetPhysicalPortInUseStatus(str(form.relbmcnr.data), True)
+
+        print("hej")
+
+        #   Add relay information to database.
+        break
+
+        #flash("hej")
 
         #   select * from tblgpiolayout where inuse = 0 and name like "GPIO%" order by bcm
          
-    
-    state_names = []
+    return render_template('relaysadd.html',
+        title='Register new relay',
+        nodename=Settings.nodeName,
+        form=form)
+
+
+    #state_names = []
 
     
 
@@ -138,9 +171,7 @@ def relayadd():
     #form.bmcnr.choices = state_choices
     
     
-    return render_template('relaysadd.html',
-        title='Sign In',
-        form=form)
+
 
     
 

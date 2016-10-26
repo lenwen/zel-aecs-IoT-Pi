@@ -29,6 +29,9 @@
     <Compile Include="DatabaseHandling\dbTblGpioLayout.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DatabaseHandling\dbTblRelays.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DatabaseHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
