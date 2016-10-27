@@ -21,7 +21,7 @@ class dbTblGpioLayout(object):
 
         test1 = []
         for row in rows:
-            test1.append((row[0],"{} - Bcm {} - Wpi {}".format(row[3], row[1], row[2])))
+            test1.append((row[0],"Physical {} - {} - Bcm {} - Wpi {}".format(row[0], row[3], row[1], row[2])))
         
         return test1
 
@@ -57,6 +57,20 @@ class dbTblGpioLayout(object):
         c.execute(sqlString)
         conn.commit()
         c.close()
+
+    def GetBcmNameUsingPhysicalId(physicalId = str):
+        conn = sqlite3.connect(Settings.dbfilename)
+        c = conn.cursor()
+        c.execute("select bcm from tblgpiolayout where physical = '{}';".format(physicalId))
+        rows = c.fetchone()
+
+        if rows is None:
+            return None
+        try:
+            return str(rows[0])
+        
+        except:
+            return None
 
 
 

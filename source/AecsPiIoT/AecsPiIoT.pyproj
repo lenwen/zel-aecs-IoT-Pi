@@ -164,6 +164,9 @@
     <Content Include="FlaskWeb\templates\relays.html">
       <Publish>True</Publish>
     </Content>
+    <Content Include="FlaskWeb\templates\relaysadd-done.html">
+      <Publish>True</Publish>
+    </Content>
     <Content Include="FlaskWeb\templates\relaysadd.html">
       <Publish>True</Publish>
     </Content>

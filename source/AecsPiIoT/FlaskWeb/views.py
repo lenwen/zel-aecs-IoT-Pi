@@ -10,6 +10,9 @@ from .forms import RelayAddForm
 import sqlite3
 from Settings import Settings
 from DatabaseHandling import dbTblGpioLayout, dbTblRelays
+from RelayHandling import RelayHandling,RelaysDataClass, GPIO
+
+
 import json
 
 # from FlaskWebProject1 import app
@@ -138,6 +141,23 @@ def relayadd():
 
         #   Add relay information to database.
         relayId = dbTblRelays.dbTblRelays.AddRelay(str(form.relbmcnr.data),str(form.reltype.data),"1",form.relenable.data,form.relstartason.data, form.relstartaslastvalue.data, False, form.relname.data, form.relnameinfo.data)
+        
+        #   Get Bcm port id using phyical Gpio id
+        bcmId = dbTblGpioLayout.dbTblGpioLayout.GetBcmNameUsingPhysicalId(str(form.relbmcnr.data))
+        
+        if bcmId is None:
+            form.relbmcnr.errors.append("Something have gone wrong whit the Gpio port. Chose another port!")
+            break
+
+        #   Add relay to settings relay dict
+        tmprel1 = RelayHandling(relayId)
+        tmprel1.Init(16,form.reltype.data, False, form.relenable.data, False, 1)
+        Settings.relays[relayId] = tmprel1
+
+        return render_template('relaysadd-done.html',
+            title='Register new relay - Done',
+            nodename=Settings.nodeName)
+        
         break
 
         #flash("hej")

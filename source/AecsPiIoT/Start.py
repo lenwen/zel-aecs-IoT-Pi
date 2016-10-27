@@ -186,15 +186,15 @@ def main():
     time.sleep(2)
 
     #   Setup 2 relay to test
-    tmprel1 = RelayHandling(1)
-    tmprel1.Init(21, 1, True, True, False,1)
-    Settings.relays[1] = tmprel1
-    tmprel2 = RelayHandling(2)
-    tmprel2.Init(20,1,False, True,False,1)
-    Settings.relays[2] = tmprel2
-    tmprel3 = RelayHandling(3)
-    tmprel3.Init(16,1,False, True,False,2)
-    Settings.relays[3] = tmprel3
+    #tmprel1 = RelayHandling(1)
+    #tmprel1.Init(21, 1, True, True, False,1)
+    #Settings.relays[1] = tmprel1
+    #tmprel2 = RelayHandling(2)
+    #tmprel2.Init(20,1,False, True,False,1)
+    #Settings.relays[2] = tmprel2
+    #tmprel3 = RelayHandling(3)
+    #tmprel3.Init(16,1,False, True,False,2)
+    #Settings.relays[3] = tmprel3
 
     WebSiteInit();
     time.sleep(2)
