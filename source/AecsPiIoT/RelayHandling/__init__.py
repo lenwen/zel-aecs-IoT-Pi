@@ -12,17 +12,17 @@ class RelayHandling(object):
         
         #self.gpioPin = gpioPin
 
-    def Init(self, gpioPin = int, type=int, SetOn=bool, enable=bool, isLocked = bool, mode=int ):
+    def Init(self, bcmid = int, type=int, SetOn=bool, enable=bool, isLocked = bool, mode=int ):
         if self.Init is True:
             self.Error("This Relay is already init")
         else:
             self.Info("Running Init()")
-            self.Data = RelaysDataClass(gpioPin, type)
+            self.Data = RelaysDataClass(bcmid, type)
             
             if self.Data.Type == 1:
-                GPIO.setup(self.Data.GpioPin, GPIO.OUT, initial=1)
+                GPIO.setup(self.Data.bcmid, GPIO.OUT, initial=1)
             elif self.Data.Type == 2:
-                GPIO.setup(self.Data.GpioPin, GPIO.OUT, initial=0)
+                GPIO.setup(self.Data.bcmid, GPIO.OUT, initial=0)
             else:
                 self.Error("Relay type error!!!")
             self.Data.Enable = enable
@@ -43,9 +43,9 @@ class RelayHandling(object):
     def TurnOn(self, force=bool):
         self.Info("TurnOn")
         if self.Data.Type == 1:
-            GPIO.output(self.Data.GpioPin, GPIO.LOW)
+            GPIO.output(self.Data.bcmid, GPIO.LOW)
         elif self.Data.Type == 2:
-            GPIO.output(self.Data.GpioPin, GPIO.HIGH)
+            GPIO.output(self.Data.bcmid, GPIO.HIGH)
         else:
             self.Error("Relay type error.")
         self.Data.IsOn = True
@@ -53,9 +53,9 @@ class RelayHandling(object):
     def TurnOff(self, force=bool):
         self.Info("TurnOff")
         if self.Data.Type == 1:
-            GPIO.output(self.Data.GpioPin, GPIO.HIGH)
+            GPIO.output(self.Data.bcmid, GPIO.HIGH)
         elif self.Data.Type == 2:
-            GPIO.output(self.Data.GpioPin, GPIO.LOW)
+            GPIO.output(self.Data.bcmid, GPIO.LOW)
         else:
             self.Error("Relay type error.")
         self.Data.IsOn = False
@@ -80,8 +80,8 @@ class RelayHandling(object):
 
 
 class RelaysDataClass(object):
-    def __init__(self, gpioPin=int, type=int):
-        self.GpioPin = gpioPin
+    def __init__(self, bcmid=int, type=int):
+        self.bcmid = bcmid
         self.Type = type    #   1 = Off=high signal(1) on= low signal(0)
         #self.IsInit = False
         self.IsOn = False
