@@ -151,8 +151,9 @@ def relayadd():
 
         #   Add relay to settings relay dict
         tmprel1 = RelayHandling(relayId)
-        tmprel1.Init(16,form.reltype.data, False, form.relenable.data, False, 1)
+        tmprel1.Init(int(bcmId),form.reltype.data, False, form.relenable.data, False, 1)
         Settings.relays[relayId] = tmprel1
+        #   Fix this!!!!!!  TODO  TODO
 
         return render_template('relaysadd-done.html',
             title='Register new relay - Done',

@@ -4,6 +4,7 @@ from Debug import Debug
 from Settings import Settings
 
 
+
 class dbTblGpioLayout(object):
     """description of class"""
     def __init__():

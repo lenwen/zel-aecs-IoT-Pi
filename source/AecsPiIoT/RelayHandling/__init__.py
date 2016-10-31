@@ -20,16 +20,16 @@ class RelayHandling(object):
             self.Data = RelaysDataClass(bcmid, type)
             
             if self.Data.Type == 1:
-                GPIO.setup(self.Data.bcmid, GPIO.OUT, initial=1)
+                GPIO.setup(int(self.Data.bcmid), GPIO.OUT, initial=1)
             elif self.Data.Type == 2:
-                GPIO.setup(self.Data.bcmid, GPIO.OUT, initial=0)
+                GPIO.setup(int(self.Data.bcmid), GPIO.OUT, initial=0)
             else:
                 self.Error("Relay type error!!!")
             self.Data.Enable = enable
             self.Data.IsLocked = isLocked
             self.Data.Mode = mode
 
-            if SetOn is True:
+            if SetOn:
                 self.TurnOn(True)
             else:
                 self.TurnOff(True)
@@ -88,3 +88,6 @@ class RelaysDataClass(object):
         self.IsLocked = False
         self.Enable = False
         self.Mode = 1   #   1= Manuel | 2  = semi | 3 = Auto
+        self.Startason = False
+        self.StartAsLastValue = False
+        self.LogHistoryToDatabase = False

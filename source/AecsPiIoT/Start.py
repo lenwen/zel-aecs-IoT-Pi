@@ -24,7 +24,7 @@ from warnings import catch_warnings
 from _ast import Str
 
 from Settings import Settings
-from DatabaseHandling import Database
+from DatabaseHandling import Database, dbTblRelays
 from Debug import Debug
 from RelayHandling import RelayHandling,RelaysDataClass, GPIO
 
@@ -184,6 +184,9 @@ def main():
     
     Debug.Info("Wait 2 sek")
     time.sleep(2)
+
+    #   Get relay information from database.
+    dbTblRelays.dbTblRelays.GetRelaysAndSaveToSettingsRelay()
 
     #   Setup 2 relay to test
     #tmprel1 = RelayHandling(1)
