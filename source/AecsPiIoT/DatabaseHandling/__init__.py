@@ -134,6 +134,8 @@ class Database(object):
             Database.DoUpgrade2()
             if Settings.rpi_Revision == "3":
                 Database.LayoutPiRevision3()
+        if dbversion < 3:
+            Database.DoUpgrade3()
              
     def DoUpgrade2():
         Debug.Info("Running database upgrade 2")
@@ -147,6 +149,18 @@ class Database(object):
         c.execute("UPDATE tblsettings SET data = '2' where name = 'dbversion' ;")
         connUpdate.commit()
         c.close()
+        Debug.Info("Running database upgrade 2 - Done")
+
+    def DoUpgrade3():
+        Debug.Info("Running database upgrade 3")
+        connUpdate = sqlite3.connect(Settings.dbfilename)
+        c = connUpdate.cursor()
+        c.execute("CREATE TABLE `tbllogrelays` (	`logid`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,	`relayid`	INTEGER NOT NULL,	`datelogutc`	INTEGER NOT NULL,	`changefrom`	TEXT NOT NULL,	`changeto`	TEXT NOT NULL,	`changeby`	TEXT NOT NULL);")
+        c.execute("CREATE INDEX `index_tbllogrelays_relayid` ON `tbllogrelays` (`relayid` ASC);")
+        c.execute("UPDATE tblsettings SET data = '3' where name = 'dbversion' ;")
+        connUpdate.commit()
+        c.close()
+        Debug.Info("Running database upgrade 3 - Done")
 
     def LayoutPiRevision3():
         Debug.Info("Running Layout Pi Revision3 update")
