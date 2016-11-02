@@ -23,7 +23,8 @@ def home():
     """Renders the home page."""
     return render_template(
         'index.html',
-        title='Home Page',
+        nodename=Settings.nodeName,
+        title='Aecs Pi IoT',
         year=datetime.now().year,
     )
 
@@ -33,9 +34,10 @@ def contact():
     """Renders the contact page."""
     return render_template(
         'contact.html',
+        nodename=Settings.nodeName,
         title='Contact',
         year=datetime.now().year,
-        message='Your contact page.'
+        message='TODO.....'
     )
 
 @app.route('/about')
@@ -43,9 +45,10 @@ def about():
     """Renders the about page."""
     return render_template(
         'about.html',
+        nodename=Settings.nodeName,
         title='About',
         year=datetime.now().year,
-        message='Your application description page.'
+        message='TODO.'
     )
 
 @app.route('/sensors')
@@ -53,7 +56,8 @@ def sensors():
     """Renders the about page."""
     return render_template(
         'sensors.html',
-        title='Sensors Title',
+        title='Sensors information',
+        nodename=Settings.nodeName,
         year=datetime.now().year,
         sensdata = Settings.sensors
     )
