@@ -82,7 +82,7 @@ class dbTblRelays(object):
             
             if tmprelayAdd.Data.Startason:
                 tmprelayAdd.TurnOn(True)
-                print("sddsf")
+                
             else:
                 #   TODO    fix start when db value is startaslastvalue
                 print("sdfdsfs")

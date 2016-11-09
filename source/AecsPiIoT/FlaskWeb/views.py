@@ -141,7 +141,7 @@ def relayadd():
         #   Set Physical port in use
         dbTblGpioLayout.dbTblGpioLayout.SetPhysicalPortInUseStatus(str(form.relbmcnr.data), True)
 
-        print("hej")
+        
 
         #   Add relay information to database.
         relayId = dbTblRelays.dbTblRelays.AddRelay(str(form.relbmcnr.data),str(form.reltype.data),"1",form.relenable.data,form.relstartason.data, form.relstartaslastvalue.data, False, form.relname.data, form.relnameinfo.data)

@@ -50,6 +50,9 @@
     <Compile Include="OnBoardOneWireHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\Shunt\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RelayHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -78,6 +81,8 @@
     <Folder Include="FlaskWeb\static\fonts\" />
     <Folder Include="FlaskWeb\static\content\" />
     <Folder Include="FlaskWeb\static\scripts\" />
+    <Folder Include="Plugins\" />
+    <Folder Include="Plugins\Shunt\" />
     <Folder Include="RelayHandling\" />
     <Folder Include="Tests\" />
     <Folder Include="OnBoardOneWireHandling\" />
