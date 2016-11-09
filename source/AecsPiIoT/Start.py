@@ -202,6 +202,11 @@ def main():
     WebSiteInit();
     time.sleep(2)
 
+    GPIO.setup(18, GPIO.OUT)
+    p = GPIO.PWM(18, 100)
+    p.ChangeFrequency(100)
+    
+    #p = GPIO.PWM(18, 0.5)
     while True:
         Debug.Info("While is running from start")
 
@@ -214,6 +219,8 @@ def main():
                 Debug.Info("CPU: " + data)
 
         sdfsd = "dsfsdf"
+        #   Fun test running.
+        
         #for oneWire in sensorOneWireOnBoardDs18b20List:
         #    timeago = time.time() - oneWire.lastchecked
         #    print("ID: " + oneWire.romid + " Temp: " + str(round(oneWire.temp,2)) + " Status: " + oneWire.status + " Check: "  + str(round(timeago)))
@@ -223,7 +230,20 @@ def main():
 
         #aa = packtest1()
         #aa.test();
-        
+        Debug.Info("Fun test start")
+        #Debug.Info("10%")
+        #p.start(10)
+        #time.sleep(10)
+        Debug.Info("20%")
+        p.start(20)
+        time.sleep(10)
+        Debug.Info("50%")
+        p.ChangeDutyCycle(50)
+        time.sleep(10)
+        Debug.Info("100%")
+        p.ChangeDutyCycle(100)
+        time.sleep(10)
+        Debug.Info("test done!!")
         time.sleep(5)
         #   Relay testing code
         #Settings.relays[1].Switch(True)

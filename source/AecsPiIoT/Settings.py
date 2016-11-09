@@ -32,6 +32,11 @@ class Settings(object):
     OnBoardOneWireSensorDs18b20CrcWaitingTime = 5
     OnBoardOneWireSensorDs18b20MissingTime = 30
 
+    #   Shunt settings
+    ShuntShodBeRunning = False
+    ShuntIsRunning = False
+    ShuntWaitBetweenRun = 5
+    ShuntData = {}  #   All shunts in system. Dict <ShuntId (int), ShuntData (class)>
     #   Security information
     keyAccess = "jdiieh39sa"
 

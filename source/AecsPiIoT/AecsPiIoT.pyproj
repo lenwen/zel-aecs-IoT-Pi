@@ -50,6 +50,9 @@
     <Compile Include="OnBoardOneWireHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Plugins\Shunt\ShuntData.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Plugins\Shunt\__init__.py">
       <SubType>Code</SubType>
     </Compile>
