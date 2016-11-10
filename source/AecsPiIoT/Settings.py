@@ -37,6 +37,24 @@ class Settings(object):
     ShuntIsRunning = False
     ShuntWaitBetweenRun = 5
     ShuntData = {}  #   All shunts in system. Dict <ShuntId (int), ShuntData (class)>
+
+    #   built in fan control
+    FanControllEnable = True
+    FanInitDone = False
+    FanPwmData = None
+    FanRunValueLowestforTurnOff = 20
+    FanRunValueHighestAllow = 100
+    FanPwmBcmId = 18
+    FanFrequency = 100
+    FanStartValue = 20
+    FanTempSensorId = 1001
+    FanTempStartValue = 22
+    FanTempValueDoMaxRunValue = 35
+    FanTempValueNow = 0
+    FanTempValueOld = 0
+    
+
+
     #   Security information
     keyAccess = "jdiieh39sa"
 

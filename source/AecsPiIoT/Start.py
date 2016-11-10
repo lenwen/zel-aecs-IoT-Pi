@@ -152,8 +152,31 @@ def GetPlatformRunningOn():
     else:
         Settings.dbfilename = Settings.dir_ConfigFiles + "aecs.db"
         Settings.runningOnRaspberry = True
-        
-      
+
+#   Fun BuildIn Box control        
+def OnDeviceFan():
+    if Settings.FanControllEnable:
+        Debug.Info("Fan enable. Starting fan control")
+        if Settings.FanInitDone:
+            #   Read sensor temp value
+            Debug.Info("Fan speed is running")
+            if Settings.FanTempSensorId in Settings.sensors:
+                print("FAN - SensorId exist")
+                print (Settings.sensors[1001].type)
+            else:
+                print("FAN - sensor id dont exist")
+                #onewireonboardds18b20
+        else:
+            Debug.Info("Fan init is not done. Doing onDeviceFan init()")
+            GPIO.setup(Settings.FanPwmBcmId, GPIO.OUT)
+            Settings.FanPwmData = GPIO.PWM(Settings.FanPwmBcmId, Settings.FanFrequency)
+            Settings.FanPwmData.ChangeFrequency(Settings.FanFrequency)
+            Settings.FanPwmData.start(Settings.FanStartValue)
+            #p = GPIO.PWM(Settings.FanPwmBcmId, Settings.FanFrequency)
+            #p.ChangeFrequency(Settings.FanFrequency)
+            #p.start(Settings.FanStartValue)
+            Settings.FanInitDone = True
+
 #   Allow CTRL + c to shutdown the system
 signal.signal(signal.SIGINT, signal_handler)
 
@@ -202,10 +225,11 @@ def main():
     WebSiteInit();
     time.sleep(2)
 
-    GPIO.setup(18, GPIO.OUT)
-    p = GPIO.PWM(18, 100)
-    p.ChangeFrequency(100)
-    
+    #GPIO.setup(18, GPIO.OUT)
+    #p = GPIO.PWM(18, 100)
+    #p.ChangeFrequency(100)
+    #Debug.Info("20%")
+    #p.start(20)
     #p = GPIO.PWM(18, 0.5)
     while True:
         Debug.Info("While is running from start")
@@ -219,7 +243,10 @@ def main():
                 Debug.Info("CPU: " + data)
 
         sdfsd = "dsfsdf"
-        #   Fun test running.
+        
+        OnDeviceFan();
+      
+            
         
         #for oneWire in sensorOneWireOnBoardDs18b20List:
         #    timeago = time.time() - oneWire.lastchecked
@@ -230,20 +257,20 @@ def main():
 
         #aa = packtest1()
         #aa.test();
-        Debug.Info("Fun test start")
+        #Debug.Info("Fun test start")
         #Debug.Info("10%")
         #p.start(10)
         #time.sleep(10)
-        Debug.Info("20%")
-        p.start(20)
-        time.sleep(10)
-        Debug.Info("50%")
-        p.ChangeDutyCycle(50)
-        time.sleep(10)
-        Debug.Info("100%")
-        p.ChangeDutyCycle(100)
-        time.sleep(10)
-        Debug.Info("test done!!")
+        #Debug.Info("20%")
+        #p.start(20)
+        #time.sleep(10)
+        #Debug.Info("50%")
+        #p.ChangeDutyCycle(50)
+        #time.sleep(10)
+        #Debug.Info("100%")
+        #p.ChangeDutyCycle(100)
+        #time.sleep(10)
+        #Debug.Info("test done!!")
         time.sleep(5)
         #   Relay testing code
         #Settings.relays[1].Switch(True)
@@ -259,6 +286,7 @@ def main():
         #    Settings.relays[2].TurnOn(0,False)
 
     Debug.Info("Ending")
+
     
 
 if __name__ == "__main__":
