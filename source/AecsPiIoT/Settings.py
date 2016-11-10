@@ -33,10 +33,8 @@ class Settings(object):
     OnBoardOneWireSensorDs18b20MissingTime = 30
 
     #   Shunt settings
-    ShuntShodBeRunning = False
-    ShuntIsRunning = False
-    ShuntWaitBetweenRun = 5
-    ShuntData = {}  #   All shunts in system. Dict <ShuntId (int), ShuntData (class)>
+    shuntData = None
+    # ShuntData = {}  #   All shunts in system. Dict <ShuntId (int), ShuntData (class)>
 
     #   built in fan control
     FanControllEnable = True
