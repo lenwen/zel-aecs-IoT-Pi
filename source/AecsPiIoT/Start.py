@@ -127,11 +127,9 @@ def OnBoardOneWireInit():
                 os.system('modprobe w1-therm') # Turns on the Temperature module
                 thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
                 # thOnBoardOneWireHandling = OnBoardOneWireHandling.OnBoardOneWireHandling("onboardOneWire","1-wire onboard",2)
-    
-            
-                                                                  
                 thOnBoardOneWireHandling.start();
                 Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
+
 def WebSiteInit():
     thWebSite = FlaskWeb.WebSite("website")
     thWebSite.start()
@@ -172,9 +170,6 @@ def OnDeviceFan():
             Settings.FanPwmData = GPIO.PWM(Settings.FanPwmBcmId, Settings.FanFrequency)
             Settings.FanPwmData.ChangeFrequency(Settings.FanFrequency)
             Settings.FanPwmData.start(Settings.FanStartValue)
-            #p = GPIO.PWM(Settings.FanPwmBcmId, Settings.FanFrequency)
-            #p.ChangeFrequency(Settings.FanFrequency)
-            #p.start(Settings.FanStartValue)
             Settings.FanInitDone = True
 
 #   Allow CTRL + c to shutdown the system
@@ -191,7 +186,8 @@ def main():
     #   Get platform information
     GetPlatformRunningOn()
 
-    #   Setup Grip as BCM
+
+    #   Setup Grio as BCM
     if Settings.runningOnRaspberry:
         GPIO.setmode(GPIO.BCM)
         Settings.rpi_Revision = str(GPIO.RPI_REVISION)
@@ -211,26 +207,11 @@ def main():
     #   Get relay information from database.
     dbTblRelays.dbTblRelays.GetRelaysAndSaveToSettingsRelay()
 
-    #   Setup 2 relay to test
-    #tmprel1 = RelayHandling(1)
-    #tmprel1.Init(21, 1, True, True, False,1)
-    #Settings.relays[1] = tmprel1
-    #tmprel2 = RelayHandling(2)
-    #tmprel2.Init(20,1,False, True,False,1)
-    #Settings.relays[2] = tmprel2
-    #tmprel3 = RelayHandling(3)
-    #tmprel3.Init(16,1,False, True,False,2)
-    #Settings.relays[3] = tmprel3
 
     WebSiteInit();
     time.sleep(2)
 
-    #GPIO.setup(18, GPIO.OUT)
-    #p = GPIO.PWM(18, 100)
-    #p.ChangeFrequency(100)
-    #Debug.Info("20%")
-    #p.start(20)
-    #p = GPIO.PWM(18, 0.5)
+
     while True:
         Debug.Info("While is running from start")
 
@@ -248,42 +229,9 @@ def main():
       
             
         
-        #for oneWire in sensorOneWireOnBoardDs18b20List:
-        #    timeago = time.time() - oneWire.lastchecked
-        #    print("ID: " + oneWire.romid + " Temp: " + str(round(oneWire.temp,2)) + " Status: " + oneWire.status + " Check: "  + str(round(timeago)))
-            #print("ID: " + oneWire.romid + " Temp: " + str(round(oneWire.temp)))
-        #print("tstvalue = " + Settings.testvalue)
-        #packtest1.test()
 
-        #aa = packtest1()
-        #aa.test();
-        #Debug.Info("Fun test start")
-        #Debug.Info("10%")
-        #p.start(10)
-        #time.sleep(10)
-        #Debug.Info("20%")
-        #p.start(20)
-        #time.sleep(10)
-        #Debug.Info("50%")
-        #p.ChangeDutyCycle(50)
-        #time.sleep(10)
-        #Debug.Info("100%")
-        #p.ChangeDutyCycle(100)
-        #time.sleep(10)
-        #Debug.Info("test done!!")
         time.sleep(5)
-        #   Relay testing code
-        #Settings.relays[1].Switch(True)
-        #Settings.relays[2].Switch(True)
-        #if Settings.relays[1].Data.IsOn:
-        #    Settings.relays[1].TurnOff(0,False)
-        #else:
-        #    Settings.relays[1].TurnOn(0,False)
-        
-        #if Settings.relays[2].Data.IsOn:
-        #    Settings.relays[2].TurnOff(0,False)
-        #else:
-        #    Settings.relays[2].TurnOn(0,False)
+
 
     Debug.Info("Ending")
 
