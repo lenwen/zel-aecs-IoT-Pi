@@ -22,6 +22,7 @@ import platform
 #from __builtin__ import str, int
 from warnings import catch_warnings
 from _ast import Str
+from decimal import *
 
 from Settings import Settings
 from DatabaseHandling import Database, dbTblRelays
@@ -214,7 +215,11 @@ def OnDeviceFan():
             #   Read sensor temp value
             # Info("FAN | Fan speed is running")
             if Settings.FanTempSensorId in Settings.sensors:
-                Info("FAN | temperatur sensorId exist - Value: {}".format(str(Settings.sensors[1001].GetValue())))
+                
+                #   Get temp value whitout decimal data. Get only int value ex: 22  not 22.0
+                #tmpsensorValue = round(Settings.sensors[1001].GetValue(), 0)
+                tmpsensorValue = int(Settings.sensors[1001].GetValue())
+                Info("FAN | temperatur sensorId exist - Value: {}".format(str(tmpsensorValue)))
                 #print (str(Settings.sensors[1001].GetValue()))
             else:
                 Warning("FAN | - sensor id dont exist")
