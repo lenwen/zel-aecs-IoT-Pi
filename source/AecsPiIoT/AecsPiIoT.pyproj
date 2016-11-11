@@ -185,7 +185,9 @@
     <Content Include="FlaskWeb\templates\testpage.html">
       <Publish>True</Publish>
     </Content>
-    <Content Include="requirements.txt" />
+    <Content Include="requirements.txt">
+      <Publish>True</Publish>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
