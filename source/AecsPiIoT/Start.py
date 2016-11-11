@@ -215,7 +215,7 @@ def OnDeviceFan():
             Debug.Info("Fan speed is running")
             if Settings.FanTempSensorId in Settings.sensors:
                 print("FAN - SensorId exist")
-                print (Settings.sensors[1001].type)
+                print (str(Settings.sensors[1001].GetValue()))
             else:
                 print("FAN - sensor id dont exist")
                 #onewireonboardds18b20

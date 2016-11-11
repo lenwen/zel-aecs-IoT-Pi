@@ -5,7 +5,8 @@
 '''
   
 
-class SensorInfo(object):
+#class SensorInfo(object):
+class SensorInfo():
     def __init__(self, id=int, type=str):
         self.id = id
         self.type = type
@@ -21,6 +22,15 @@ class SensorInfo(object):
         self.saveHistoryToDatabase = False
         
         #self.typeOneWireOnBoardDs18b20 = OneWireOnBoardDs18b20Class
+
+    def GetValue(self):
+        if self.type == "onewireonboardds18b20":
+            return self.typeData.temp
+        else:
+            return None
+        
+
+
         
 class OneWireOnBoardDictClass(object):
     def __init__(self, id=int):
