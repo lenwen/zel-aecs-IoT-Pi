@@ -28,6 +28,11 @@ from DatabaseHandling import Database, dbTblRelays
 from Debug import Debug
 from RelayHandling import RelayHandling,RelaysDataClass, GPIO
 
+#   Shunt import 
+from PluginShunt import ShuntCtr, ShuntDataClass
+import PluginShunt
+
+
 import OnBoardOneWireHandling
 import FlaskWeb
 
@@ -35,6 +40,15 @@ from multiprocessing import Process
 
 commandline = sys.argv
 vsDebug = False
+
+def Info(Text):
+    Debug.Info("Main | {text}".format(text=Text))
+
+def Warning(Text):
+    Debug.Warning("Main | {text}".format(text=Text))    
+    
+def Error(Text):
+    Debug.Error("Main | {text}".format(text=Text))
 
 #   Read and set CommandLine arguments
 for cmd in sys.argv:
@@ -130,6 +144,47 @@ def OnBoardOneWireInit():
                 thOnBoardOneWireHandling.start();
                 Settings.threads["onboardOneWire"] = thOnBoardOneWireHandling
 
+def LoadFajkShuntdata():
+    z = ShuntDataClass()
+    z.ShuntInitIsDone = True
+    z.ShuntIsRunning = False
+    z.ShuntShodBeRunning = True
+    z.ShuntWaitBetweenRun = 5
+    Settings.shunt = z
+    
+    x = ShuntCtr.ShuntCtr(1,"test1")
+    Settings.shunt.ShuntCtr[1] = x
+    print("aaaaa")
+    
+def PluginShuntInit():
+    if Settings.ShuntPluginEnable:
+        #   Shunt shod be used
+        if (Settings.shunt is None):
+            #   Shunt data is none. do init.
+            #Load shuntdata from database.
+            LoadFajkShuntdata()
+        
+        #   Check if thread already exist
+        if ("pluginShunt" in Settings.threads):
+            #   Thread already exist
+            if (Settings.shunt.ShuntIsRunning == False):
+                #   Thread is not running. start the thread.
+                if (Settings.shunt.ShuntShodBeRunning):
+                    #   Thread ska köras. starta den
+                    Settings.threads["pluginShunt"].run()
+
+        else:
+            thPluginShunt = PluginShunt.PluginShunt("pluginShunt","Shunt system",2)
+            print("bbbbb")
+            thPluginShunt.start()
+            Settings.threads["pluginShunt"] = thPluginShunt
+            print("aaaaa")
+
+
+
+
+
+
 def WebSiteInit():
     thWebSite = FlaskWeb.WebSite("website")
     thWebSite.start()
@@ -211,11 +266,14 @@ def main():
     WebSiteInit();
     time.sleep(2)
 
+    Settings.ShuntPluginEnable = True
 
     while True:
-        Debug.Info("While is running from start")
+        Info("While is running from start")
 
         OnBoardOneWireInit();
+
+        PluginShuntInit()
 
         if Settings.runningOnRaspberry:
             #   Read raspbery pi int sensors
@@ -239,5 +297,6 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(int(main() or 0))
+
 
 

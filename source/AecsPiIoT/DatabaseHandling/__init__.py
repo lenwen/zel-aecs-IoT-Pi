@@ -15,6 +15,14 @@ class Database(object):
     def __init__():
         self.dsfdsf = "asds"
         
+    def Info(Text):
+        Debug.Info("Database | {text}".format(text=Text))
+
+    def Warning(Text):
+        Debug.Warning("Database | {text}".format(text=Text))    
+    
+    def Error(Text):
+        Debug.Error("Database | {text}".format(text=Text))    
 
     def start():
         #   Check if db file exist.
@@ -120,8 +128,12 @@ class Database(object):
                     Settings.OnBoardOneWireSensorDs18b20CrcWaitingTime = row[1]
 
                 elif matchWord == "onboardonewiresensords18b20missingtime":
-                    Debug.Info("OnBoardOneWireSensorDs18b20MissingTime Found in database")
+                    Database.Info("Settings | OnBoardOneWireSensorDs18b20MissingTime Found in database")
                     Settings.OnBoardOneWireSensorDs18b20MissingTime = row[1]
+
+                elif matchWord == "shuntpluginenable":
+                    Database.Info("Settings | ShuntPluginEnable Found in database")
+                    Settings.ShuntPluginEnable = bool(row[1])
 
                 else:
                     Debug.Error("Settings Value is missing!!!!!\nValue: " + matchWord + "\nData: " + row[1]) 
@@ -208,5 +220,6 @@ class Database(object):
         c.execute("INSERT INTO `tblgpiolayout` (physical,bcm,wpi,name,inuse) VALUES (40,21,29,'GPIO. 29',0);")
         connUpdate.commit()
         c.close()
-           
+
+         
 # aecs@pidev

@@ -32,6 +32,9 @@
     <Compile Include="DatabaseHandling\dbTblRelays.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DatabaseHandling\dbTblShunt.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DatabaseHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
@@ -50,10 +53,13 @@
     <Compile Include="OnBoardOneWireHandling\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\Shunt\ShuntDataClass.py">
+    <Compile Include="PluginShunt\__init__.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Plugins\Shunt\__init__.py">
+    <Compile Include="PluginShunt\ShuntCtr.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="PluginShunt\ShuntDataClass.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RelayHandling\__init__.py">
@@ -84,8 +90,7 @@
     <Folder Include="FlaskWeb\static\fonts\" />
     <Folder Include="FlaskWeb\static\content\" />
     <Folder Include="FlaskWeb\static\scripts\" />
-    <Folder Include="Plugins\" />
-    <Folder Include="Plugins\Shunt\" />
+    <Folder Include="PluginShunt\" />
     <Folder Include="RelayHandling\" />
     <Folder Include="Tests\" />
     <Folder Include="OnBoardOneWireHandling\" />
