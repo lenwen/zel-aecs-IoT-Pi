@@ -209,23 +209,25 @@ def GetPlatformRunningOn():
 #   Fun BuildIn Box control        
 def OnDeviceFan():
     if Settings.FanControllEnable:
-        Debug.Info("Fan enable. Starting fan control")
+        Info("FAN | Device enable - Running fan control")
         if Settings.FanInitDone:
             #   Read sensor temp value
-            Debug.Info("Fan speed is running")
+            # Info("FAN | Fan speed is running")
             if Settings.FanTempSensorId in Settings.sensors:
-                print("FAN - SensorId exist")
-                print (str(Settings.sensors[1001].GetValue()))
+                Info("FAN | temperatur sensorId exist - Value: {}".format(str(Settings.sensors[1001].GetValue())))
+                #print (str(Settings.sensors[1001].GetValue()))
             else:
-                print("FAN - sensor id dont exist")
+                Warning("FAN | - sensor id dont exist")
                 #onewireonboardds18b20
         else:
-            Debug.Info("Fan init is not done. Doing onDeviceFan init()")
+            Info("FAN | init is not done. Doing onDeviceFan init()")
             GPIO.setup(Settings.FanPwmBcmId, GPIO.OUT)
             Settings.FanPwmData = GPIO.PWM(Settings.FanPwmBcmId, Settings.FanFrequency)
             Settings.FanPwmData.ChangeFrequency(Settings.FanFrequency)
             Settings.FanPwmData.start(Settings.FanStartValue)
             Settings.FanInitDone = True
+        
+        Info("FAN | Device Fan enable - Running fan control - Done")
 
 #   Allow CTRL + c to shutdown the system
 signal.signal(signal.SIGINT, signal_handler)
