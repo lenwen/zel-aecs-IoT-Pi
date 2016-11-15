@@ -154,9 +154,36 @@ def LoadFajkShuntdata():
     Settings.shunt = z
     
     x = ShuntCtr.ShuntCtr(1,"test1")
+    x.info = "start"
+    x.enable = True
+    x.cirkPumpShodBeOn = True
+    x.cirkPumpStartTimeBeforStartingShunt = 30
+    x.tempOutSensorId = 1001
+    x.cirkPumpRelayId = 101
     Settings.shunt.ShuntCtr[1] = x
-    print("aaaaa")
-    
+
+    x = ShuntCtr.ShuntCtr(2, "test2")
+    x.info = "start"
+    x.enable = True
+    Settings.shunt.ShuntCtr[2] = x
+
+    # print("aaaaa")
+
+def ErrorDataBuild():
+    if not (Settings.shunt is None):
+        for shuntId in Settings.shunt.ShuntCtr:
+            if (Settings.shunt.ShuntCtr[shuntId].ErrorMainInShunt):
+                Debug.Error("----------------------------------------------")
+                Debug.Error("MAIN ERROR IN shunt id: {}".format(shuntId))
+                Debug.Error("----------------------------------------------")
+                
+                Debug.Error("trying to automatisk fix errors")
+                try:
+                    Settings.shunt.ShuntCtr[shuntId].errorCheckAndFix()
+                except AttributeError:
+                    Debug.Error("No automatisk fix error exist")
+                Debug.Error("----------------------------------------------")
+        
 def PluginShuntInit():
     if Settings.ShuntPluginEnable:
         #   Shunt shod be used
@@ -274,12 +301,14 @@ def main():
     time.sleep(2)
 
     Settings.ShuntPluginEnable = True
-
+    mainThreadRunTime = 0
     while True:
         Info("While is running from start")
-
+        mainThreadRunTime = mainThreadRunTime + 1
+        
         OnBoardOneWireInit();
 
+        
         PluginShuntInit()
 
         if Settings.runningOnRaspberry:
@@ -291,9 +320,13 @@ def main():
         sdfsd = "dsfsdf"
         
         OnDeviceFan();
-      
-            
+
+        #   Test change shunt information.
+        Settings.shunt.ShuntCtr[1].info = "run: {}".format(mainThreadRunTime)
+        Settings.shunt.ShuntCtr[2].info = "run: {}".format(mainThreadRunTime - 1)
         
+        #   Check the system for errors
+        ErrorDataBuild()
 
         time.sleep(5)
 

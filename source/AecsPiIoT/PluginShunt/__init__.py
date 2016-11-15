@@ -34,21 +34,27 @@ class PluginShunt (threading.Thread):
             Settings.shunt.ShuntIsRunning = True
             while(Settings.shunt.ShuntIsRunning):
                 # sdfdsfdsf
-                self.Info("Running Thread")
-                for keys in Settings.shunt.ShuntCtr:
-                    Settings.shunt.ShuntCtr[keys].run()
+                self.debugInfo("Running Thread")
+                for shuntId in Settings.shunt.ShuntCtr:
+                    Settings.shunt.ShuntCtr[shuntId].run()
+                    Settings.shunt.ShuntCtr[shuntId].errorBuild()
+                        
 
-                self.Info("Running Thread - Done - Waiting for next run")
+                self.debugInfo("Running Thread - Done - Waiting for next run")
                 time.sleep(float(Settings.shunt.ShuntWaitBetweenRun))
+
+            for shuntId in Settings.shunt.ShuntCtr:
+                Settings.shunt.ShuntCtr[shuntId].stop()
+
 
     def stop(self):
         Settings.shunt.ShuntIsRunning = False
 
-    def Info(self, Text):
+    def debugInfo(self, Text):
         Debug.Info("Shunt | {text}".format(text=Text))
 
-    def Warning(self, Text):
+    def debugWarning(self, Text):
         Debug.Warning("Shunt | {text}".format(text=Text))    
     
-    def Error(self, Text):
+    def debugError(self, Text):
         Debug.Error("Shunt | {text}".format(text=Text))
