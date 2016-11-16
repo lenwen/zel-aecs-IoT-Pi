@@ -140,16 +140,30 @@ def sensorEdit():
             if (str(form.sensorname.data) == ""):
                 form.sensorname.errors.append("This cannot be emty!!!")
                 break
+            if (" " in str(form.sensorname.data)):
+                form.sensorname.errors.append("this cannot contain spaces")
+                break 
 
             if (str(form.sensorcollecttime.data) == ""):
                 form.sensorcollecttime.errors.append("This cannot be emty!!!")
                 break
+            
 
             try:
                 tmpSensorCollectTime = int(form.sensorcollecttime.data)
             except:
                 form.sensorcollecttime.errors.append("Input value is not numeric!!!")
                 break
+
+            if (str(form.sensorname.data) != sendata.name):
+                # Name has change. Update name
+                #print("Name has change")
+                Settings.sensors[sendata.id].name = str(form.sensorname.data)
+
+            if (tmpSensorCollectTime != sendata.collectTime):
+                #   CollecTime has change.
+                Settings.sensors[sendata.id].collectTime = tmpSensorCollectTime
+
 
             #if (form.sensorname.data != sendata.name):
             #    print("Name has change")
