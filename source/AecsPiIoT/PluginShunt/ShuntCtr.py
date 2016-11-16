@@ -75,9 +75,16 @@ class ShuntCtr():
             #   Do temp Out Sensor id exist ?
             if (self.tempOutSensorId in Settings.sensors):
                 #   exist
-                if (Settings.sensors[self.tempOutSensorId].isWorking):
-                    #   Sensor have status working = true
-                    print(" WORKING - WORKING - wORKING")
+                if (Settings.sensors[self.tempOutSensorId].isWorking):  #   Sensor have status working = true
+                    #   Checl if sensors readvalue is good
+
+                    #   Seconds ago it was last checkt
+                    print(datetime.datetime.utcnow())
+                    print(Settings.sensors[self.tempOutSensorId].LastChecked)
+
+                    #tmpTempatureOutLastCheckInSec = (datetime.datetime.utcnow() - Settings.sensors[self.tempOutSensorId].LastChecked)
+                    #tmpdddd = tmpTempatureOutLastCheckInSec.total_seconds()
+                    #print("seconds ago last check: {}".format(tmpdddd))
                 else:
                     #   Status not working.
                     self.ErrorWhitTempOutSensorId = True
