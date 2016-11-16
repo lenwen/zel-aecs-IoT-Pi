@@ -23,13 +23,13 @@ class RelayAddForm(Form):
 
 class SensorEditForm(Form):
     #sensorformispostback = None
-    sensortype = SelectField(label="sensortype",  coerce=int)
+    #sensortype = SelectField(label="sensortype",  coerce=int)
     sensortypedata = None
     sensorenable = BooleanField('sensorenable', default=True)
     sensorname =  StringField('sensorname', validators=[DataRequired()])
     sensorinfo = StringField('sensorinfo')
     sensorcollecttime = StringField('sensorcollecttime', validators=[DataRequired()])
-    sensorsaverealtimetodatabase = BooleanField('sensorsaverealtimetodatabase', default=False)
-    sensorsavehistorytodatabase = BooleanField('sensorsavehistorytodatabase', default=False)
+    #sensorsaverealtimetodatabase = BooleanField('sensorsaverealtimetodatabase', default=False)
+    #sensorsavehistorytodatabase = BooleanField('sensorsavehistorytodatabase', default=False)
 
 

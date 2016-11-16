@@ -136,6 +136,34 @@ def sensorEdit():
 
     if request.method == 'POST':
         print("This is post back")
+        while form.validate_on_submit():
+            if (str(form.sensorname.data) == ""):
+                form.sensorname.errors.append("This cannot be emty!!!")
+                break
+
+            if (str(form.sensorcollecttime.data) == ""):
+                form.sensorcollecttime.errors.append("This cannot be emty!!!")
+                break
+
+            try:
+                tmpSensorCollectTime = int(form.sensorcollecttime.data)
+            except:
+                form.sensorcollecttime.errors.append("Input value is not numeric!!!")
+                break
+
+            #if (form.sensorname.data != sendata.name):
+            #    print("Name has change")
+            #else:
+            #    print("name has not change")
+            
+            return redirect(pageUrl)
+
+            #return render_template('relaysadd-done.html',
+            #    title='Register new relay - Done',
+            #    nodename=Settings.nodeName)
+        
+            break
+
     else:
         #   This is page open. not a form postback
         print("page open. this is not postback")
@@ -155,7 +183,7 @@ def sensorEdit():
     
     
 
-    form.sensorformispostback = True
+    # form.sensorformispostback = True
     return render_template('sensors-edit-onewire-ds18b20.html',
         title='Sensor edit',
         nodename=Settings.nodeName,

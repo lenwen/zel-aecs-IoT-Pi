@@ -19,7 +19,13 @@
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}<br>
             </p>
-
+            <p>
+                Info:<br>
+                {{ form.sensorinfo(size=200) }}<br>
+                {% for error in form.sensorinfo.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}<br>
+            </p>
             <p>
                 sensorcollecttime:<br>
                 {{ form.sensorcollecttime(size=80) }}<br>
