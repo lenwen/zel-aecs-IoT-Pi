@@ -50,16 +50,9 @@ class ShuntCtr():
          
 
     def run(self):
-        # sdfdsfdsf
-        #tmpValie = self.id
-        #tmpinfo = self.info
+        
         self.debugInfo("Run() - Id: {0} - info: {1}".format(self.id, self.info))
-        #self.info("Run - Id: {}".format(self.id))
-        #self.info("Run - Info: {}".format(self.info))
         
-        #--- HELPME
-        
-
         if self.enable:
             
             #region   Read status  from cirk pump relay Id
