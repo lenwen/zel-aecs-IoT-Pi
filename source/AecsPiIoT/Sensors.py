@@ -17,9 +17,9 @@ class SensorInfo():
         self.name = "null"
         self.info = "null"
         self.isWorking = True   #   if read error from sensor – turn this to false
-        self.collectTime = 0    #   How often shod the value be read
-        self.collectValueTimer = 0  #   How long time it takes to read value
-        self.LastChecked = datetime  #  When was is last checked (value read) datetime.datetim.utcnow
+        self.collectTime = 0    # int   How often shod the value be read
+        self.collectValueTimer = 0  #int    How long time it takes to read value. Time in seconds store as int
+        self.LastChecked = datetime  #  When was is last checked (value read) stored in  datetime.datetim.utcnow
         self.saveRealTimeToDatabase = False
         self.saveHistoryToDatabase = False
         

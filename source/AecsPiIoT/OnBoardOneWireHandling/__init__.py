@@ -47,25 +47,30 @@ class OnBoardOneWireHandling (threading.Thread):
             #   forech onewire senor in sensorOneWireOnBoardDs18b20Dict
             for oneWire in sensorOneWireOnBoardDs18b20Dict:
                 # returnId, returnStatus, returnTemp = self.readSensorData(sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.romid)
-                timeStarted = time.time()
-                returnId, returnStatus, returnTemp = self.readSensorData(Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.romid)
-                if returnStatus is "ERROR":
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "missing"
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = False
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.existInFolder = False
-                    #oneWire.status = "missing"
-                if returnStatus is "ERROR-CRC":
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "crc-error"
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = False
-                if returnStatus is "OK":
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "ok"
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].LastChecked = time.time()
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = True
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.existInFolder = True
-                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.temp = returnTemp
-                    self.Info("RomeId:" + str(oneWire) + " Value: " + str(returnTemp))
+                #timeStarted = time.time()
                 
-                Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].collectValueTimer = time.time() - timeStarted
+                if (datetime.datetime.utcnow() - Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].LastChecked).total_seconds() >= Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].collectTime:
+                    #   Denna sensors behövs läsa ett nytt värde ifrån
+
+                    timeStarted = datetime.datetime.utcnow()
+                    returnId, returnStatus, returnTemp = self.readSensorData(Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.romid)
+                    if returnStatus is "ERROR":
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "missing"
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = False
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.existInFolder = False
+                        #oneWire.status = "missing"
+                    if returnStatus is "ERROR-CRC":
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "crc-error"
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = False
+                    if returnStatus is "OK":
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.status = "ok"
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].LastChecked = datetime.datetime.utcnow() # time.time()
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].isWorking = True
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.existInFolder = True
+                        Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].typeData.temp = returnTemp
+                        self.Info("RomeId:" + str(oneWire) + " Value: " + str(returnTemp))
+                
+                    Settings.sensors[sensorOneWireOnBoardDs18b20Dict[oneWire].id].collectValueTimer = (datetime.datetime.utcnow() - timeStarted).total_seconds()  # time.time() - timeStarted
                 #sensorOneWireOnBoardDs18b20Dict[oneWire].typeOneWireOnBoardDs18b20.temp = returnTemp
             
             #   Time to wait befor next run    
@@ -144,7 +149,7 @@ class OnBoardOneWireHandling (threading.Thread):
                     sensordata.isWorking = False
                     sensordata.collectTime = 60
                     sensordata.collectValueTimer = 0
-                    sensordata.LastChecked = 0
+                    sensordata.LastChecked = datetime.datetime.utcnow() - datetime.timedelta(minutes=60) # datetime.datetime.utcnow()
                     sensordata.saveRealTimeToDatabase = False
                     sensordata.saveHistoryToDatabase = False
                     
@@ -172,7 +177,7 @@ class OnBoardOneWireHandling (threading.Thread):
                     sensordata.isWorking = False
                     sensordata.collectTime = tmpRowData[5]
                     sensordata.collectValueTimer = 0
-                    sensordata.LastChecked = 0
+                    sensordata.LastChecked = datetime.datetime.utcnow() - datetime.timedelta(minutes=60)
                     sensordata.saveRealTimeToDatabase = False   #todo fix this
                     sensordata.saveHistoryToDatabase = False    #todo fix this
                     

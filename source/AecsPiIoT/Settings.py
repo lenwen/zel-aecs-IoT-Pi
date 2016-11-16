@@ -28,7 +28,7 @@ class Settings(object):
     #   Sensor 1-Wire On Board settings
     OnBoardOneWireIsRunning = False
     OnBoardOneWireShodBeRunning = False
-    OnBoardOneWireWaitBetweenRun = 10
+    OnBoardOneWireWaitBetweenRun = 2
     OnBoardOneWireSensorDs18b20CrcWaitingTime = 5
     OnBoardOneWireSensorDs18b20MissingTime = 30
 
