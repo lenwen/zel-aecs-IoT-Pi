@@ -1,0 +1,39 @@
+﻿{% extends "layout.html" %}
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Sensor Edit</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <form action="" method="post" name="relayadd">
+            
+            {{ form.hidden_tag() }}
+            <p>
+                Namn:<br>
+                {{ form.sensorname(size=80) }}<br>
+                {% for error in form.sensorname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}<br>
+            </p>
+
+            <p>
+                sensorcollecttime:<br>
+                {{ form.sensorcollecttime(size=80) }}<br>
+                {% for error in form.sensorcollecttime.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}<br>
+            </p>
+            <p>
+                <input type="submit" value="Add">
+            </p>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

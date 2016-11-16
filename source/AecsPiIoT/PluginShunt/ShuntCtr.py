@@ -82,9 +82,9 @@ class ShuntCtr():
                     print(datetime.datetime.utcnow())
                     print(Settings.sensors[self.tempOutSensorId].LastChecked)
 
-                    #tmpTempatureOutLastCheckInSec = (datetime.datetime.utcnow() - Settings.sensors[self.tempOutSensorId].LastChecked)
+                    tmpTempatureOutLastCheckInSec = (datetime.datetime.utcnow() - Settings.sensors[self.tempOutSensorId].LastChecked).total_seconds()
                     #tmpdddd = tmpTempatureOutLastCheckInSec.total_seconds()
-                    #print("seconds ago last check: {}".format(tmpdddd))
+                    print("seconds ago last check: {}".format(tmpTempatureOutLastCheckInSec))
                 else:
                     #   Status not working.
                     self.ErrorWhitTempOutSensorId = True

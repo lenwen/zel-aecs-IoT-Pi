@@ -21,3 +21,15 @@ class RelayAddForm(Form):
     #bmcnr = SelectField(label="bmcnr", coerce=int, choices = [('0', 'not')]) 
     #bmcnr = SelectField('bmcnr', choices = [('cpp', 'C++'), ('py', 'Python')])
 
+class SensorEditForm(Form):
+    #sensorformispostback = None
+    sensortype = SelectField(label="sensortype",  coerce=int)
+    sensortypedata = None
+    sensorenable = BooleanField('sensorenable', default=True)
+    sensorname =  StringField('sensorname', validators=[DataRequired()])
+    sensorinfo = StringField('sensorinfo')
+    sensorcollecttime = StringField('sensorcollecttime', validators=[DataRequired()])
+    sensorsaverealtimetodatabase = BooleanField('sensorsaverealtimetodatabase', default=False)
+    sensorsavehistorytodatabase = BooleanField('sensorsavehistorytodatabase', default=False)
+
+

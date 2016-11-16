@@ -184,6 +184,18 @@
       <Publish>True</Publish>
     </Content>
     <Content Include="FlaskWeb\templates\relaysnofreegpios.html" />
+    <Content Include="FlaskWeb\templates\security-accesss-key-error.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\sensors-dontexist.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\sensors-edit-onewire-ds18b20.html">
+      <Publish>True</Publish>
+    </Content>
+    <Content Include="FlaskWeb\templates\sensors-edit.html">
+      <Publish>True</Publish>
+    </Content>
     <Content Include="FlaskWeb\templates\sensors.html">
       <Publish>True</Publish>
     </Content>

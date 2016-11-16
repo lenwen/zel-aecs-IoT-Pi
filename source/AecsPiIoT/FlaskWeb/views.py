@@ -5,7 +5,7 @@ Routes and views for the flask application.
 from datetime import datetime
 from flask import render_template, request, jsonify, redirect, flash
 from FlaskWeb import app
-from .forms import RelayAddForm
+from .forms import RelayAddForm, SensorEditForm
 
 import sqlite3
 from Settings import Settings
@@ -58,8 +58,9 @@ def sensors():
         'sensors.html',
         title='Sensors information',
         nodename=Settings.nodeName,
-        year=datetime.now().year,
-        sensdata = Settings.sensors
+        #year=datetime.now().year,
+        sensdata = Settings.sensors,
+        accesskey = Settings.keyAccess
     )
 
 @app.route('/relays')
@@ -106,12 +107,71 @@ def shutdown():
 #   ==============================================================================================
 #   Form data requests
 #   ----------------------------------------------------------------------------------------------
+@app.route('/sensors/edit',methods=['GET', 'POST'])
+def sensorEdit():
+    key = request.args.get('key')
+    
+    if (key != Settings.keyAccess):
+        return render_template('security-accesss-key-error.html', title='Security key error',  nodename=Settings.nodeName)
+
+    try:
+        sensorId = int(request.args.get('id'))
+    except:
+        return render_template('sensors-dontexist.html', title='Sensor dont exist',  nodename=Settings.nodeName)
+    
+    #region     Check if sensor Id exist.
+    if (sensorId not in Settings.sensors):
+        # Sensor id dont exist
+        return render_template('sensors-dontexist.html', title='Sensor dont exist',  nodename=Settings.nodeName)
+    #endregion
+
+    #print("Sensor exist in settings")
+    
+    #   Get relay id from settings
+    sendata = Settings.sensors[sensorId]
+
+    pageUrl = request.args.get('page')
+
+    form = SensorEditForm()
+
+    if request.method == 'POST':
+        print("This is post back")
+    else:
+        #   This is page open. not a form postback
+        print("page open. this is not postback")
+        form.sensorname.data = sendata.name
+        form.sensorcollecttime.data = sendata.collectTime
+
+
+
+    #print("postback?? ".format(form.sensorformispostback))
+
+    #if (form.sensorformispostback):
+    #    print("this is postback")
+    #else:
+    #    print("this is not postback")
+
+
+    
+    
+
+    form.sensorformispostback = True
+    return render_template('sensors-edit-onewire-ds18b20.html',
+        title='Sensor edit',
+        nodename=Settings.nodeName,
+        form=form)
+
+    return render_template('sensor-edit.html',
+        title='Sensor edit',
+        nodename=Settings.nodeName,
+        form=form)
+
 @app.route('/relays/add', methods=['GET', 'POST'])
 def relayadd():
     form = RelayAddForm()
 
     errorInForm = False
-
+    
     bmcnrValues = dbTblGpioLayout.dbTblGpioLayout.GetFreeGpioPortAsSelectedList()
         
     if bmcnrValues is None:

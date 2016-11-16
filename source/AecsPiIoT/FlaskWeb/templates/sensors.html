@@ -9,10 +9,62 @@
 
 <div class="row">
     <div class="col-md-12">
-        Här har vi sensor data
+        Sensor data
 
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>value</th>
+                        <th>Options</th>
+                        
+                    </tr>
+                
+                </thead>
+                <tbody>
+                    {% for key, value in sensdata.items() %}
+                        <tr>
+                            <td>{{value["id"]}}</td>
+                            <td>{{value["name"]}}</td>
+
+                           
+                            <td>
+                                {% if value["type"] == "onewireonboardds18b20" %}
+                                    {{ value["typeData"].temp }}
+                                {% else %}
+                                    Data type error
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if value["isWorking"] %}
+                                    sensor is working
+                                {% else %}
+                                    sensor is not working
+                                {% endif %}
+
+                                <!--<a href="/sensors/view?key={{accesskey}}&id={{value["id"]}}&page=/sensor" class="btn btn-info btn-xs" role="button">View</a>-->
+                                <a href="/sensors/edit?key={{accesskey}}&id={{value["id"]}}&page=/sensor" class="btn btn-info btn-xs" role="button">Edit</a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
 
 <div class="row">
     <div class="col-md-12">
