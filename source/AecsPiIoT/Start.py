@@ -26,7 +26,15 @@ from decimal import *
 
 from Settings import Settings
 from DatabaseHandling import Database, dbTblRelays
-from Debug import Debug
+
+#   debug system
+from Debug import Debug     #   Old debyg sytem
+# from LogHandling import *
+from LogHandling import *
+from LogHandling.logSettingsClass import logSettingFileClass, logSettingsClass
+
+
+
 from RelayHandling import RelayHandling,RelaysDataClass, GPIO
 
 #   Shunt import 
@@ -265,6 +273,23 @@ def OnDeviceFan():
 signal.signal(signal.SIGINT, signal_handler)
 
 def main():
+    
+    #   Build loghandling default system
+    aa = logSettingsClass
+    aa.logConsoleDebug = True
+    aa.logConsoleInfo = True
+    aa.logConsoleWarning = True
+    aa.logConsoleError = True
+    aa.logConsoleCritical = True
+    Settings.logHandling["default"] = aa
+    
+    print("Enter debug testmode")
+    LogHandling.log(logmodules.Default, logtypes.INFO, "test")
+    LogHandling.log(logmodules.Shunt, logtypes.CRITICAL, "cr")
+    # LogHandling(logmodules.Default, logtypes.INFO, "test")
+
+    choice = input("Select your item: ")
+    
     Debug.Info("Aecs-Pi-IoT Starting!!")
     
 

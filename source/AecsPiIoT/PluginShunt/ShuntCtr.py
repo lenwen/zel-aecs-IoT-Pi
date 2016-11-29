@@ -15,6 +15,7 @@ class ShuntCtr():
         self.info = str
         self.enable = False
         self.mode = 1
+        self.backgroundWorkIsRunning = False    # is there background work running for this shunt
         
         #   RelayId and SensorData
         self.cirkPumpRelayId = 0
@@ -30,8 +31,8 @@ class ShuntCtr():
         #   Cirk pump information
         self.cirkPumpIsOn = False
         self.cirkPumpShodBeOn = False
-        self.cirkPumpStartTime = 0
-        self.cirkPumpStartTimeBeforStartingShunt = 60       #   Time in seconds
+        self.cirkPumpStartTime = 0 # Time when the pump was started. Datetime utc
+        self.cirkPumpStartTimeBeforStartingShunt = 30       #   Time that pump shod run before shunt control is enable - Time in seconds
 
         self.tempWantToHave = 0
 
@@ -53,6 +54,11 @@ class ShuntCtr():
         
         self.debugInfo("Run() - Id: {0} - info: {1}".format(self.id, self.info))
         
+        if (self.backgroundWorkIsRunning):
+            #   background work is running. check status
+            debugInfo("Background work is running")
+            return
+
         if self.enable:
             
             #region   Read status  from cirk pump relay Id
@@ -76,11 +82,11 @@ class ShuntCtr():
             if (self.tempOutSensorId in Settings.sensors):
                 #   exist
                 if (Settings.sensors[self.tempOutSensorId].isWorking):  #   Sensor have status working = true
-                    #   Checl if sensors readvalue is good
+                    #   check if sensors readvalue is good
 
                     #   Seconds ago it was last checkt
-                    print(datetime.datetime.utcnow())
-                    print(Settings.sensors[self.tempOutSensorId].LastChecked)
+                    #print(datetime.datetime.utcnow())
+                    #print(Settings.sensors[self.tempOutSensorId].LastChecked)
 
                     tmpTempatureOutLastCheckInSec = (datetime.datetime.utcnow() - Settings.sensors[self.tempOutSensorId].LastChecked).total_seconds()
                     #tmpdddd = tmpTempatureOutLastCheckInSec.total_seconds()

@@ -1,5 +1,5 @@
 class Settings(object):
-    version = '0.0.201609271808'
+    version = '0.0.0.201609271808'
     versionNice = 'Version 0.0 Build x'
     osPlatform = ''
     osVersion = ''
@@ -13,6 +13,7 @@ class Settings(object):
     dir_ConfigFiles = '/etc/aecs/'
     dbfilename = ""
     dbVersion = 0
+
     #   Debug information
     debugForceFromCmd = False
     debugEnable = False
@@ -20,6 +21,11 @@ class Settings(object):
     debugToFile = False
     debugfile = '/etc/aecs/debug.log'
 
+    #   LogHandling new debug system
+    #   Dict <logmodule (string), logSettingsClass (class)>
+    logHandling = {}
+    
+    #   Shod application end?
     ApplicationShodEnd = False
 
     #   Webserver settings

@@ -15,12 +15,15 @@ def SendToLog(Text):
 
 
 class Debug(object):
+    def Dev(args):
+        SendToLog("Dev | " + Text)
     def Info(Text):
         SendToLog("Info  | " + Text)
     def Warning(Text):
         SendToLog("Warn  | " + Text)
     def Error(Text):
         SendToLog("Error | " + Text)
+
 
 
 
