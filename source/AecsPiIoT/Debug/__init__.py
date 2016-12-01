@@ -8,10 +8,10 @@ from Settings import Settings
 def SendToLog(Text):
     if (Settings.debugEnable):
         if (Settings.debugToConsole):
-            print(Text)
-        if (Settings.debugToFile):
-            with open(Settings.debugfile, 'a') as file_:
-                file_.write(time.strftime("%H:%M:%S") + " | " + str(Text) + "\n")
+            print("OLD--- " + Text)
+        #if (Settings.debugToFile):
+        #    with open(Settings.debugfile, 'a') as file_:
+        #        file_.write(time.strftime("%H:%M:%S") + " | " + str(Text) + "\n")
 
 
 class Debug(object):

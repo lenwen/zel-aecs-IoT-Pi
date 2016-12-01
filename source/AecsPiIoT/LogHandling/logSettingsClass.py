@@ -2,6 +2,8 @@ class logSettingsClass(object):
     logOnlyUsingDefault = False
     logDefaultAlso = False
     
+    logAddDateTime = True
+    
     logToFile = []
     
     logConsoleDebug = False

@@ -281,9 +281,15 @@ def main():
     aa.logConsoleWarning = True
     aa.logConsoleError = True
     aa.logConsoleCritical = True
-    Settings.logHandling["default"] = aa
+
+    aaa = logSettingFileClass
+    aaa.fileName = "/var/log/aecs/default.log"
+    aaa.logDebug = True
     
-    print("Enter debug testmode")
+    aa.logToFile.append(aaa)
+    Settings.logHandling["default"] = aa
+
+    LogHandling.log(logmodules.Default, logtypes.DEBUG, "test debug message")
     LogHandling.log(logmodules.Default, logtypes.INFO, "test")
     LogHandling.log(logmodules.Shunt, logtypes.CRITICAL, "cr")
     # LogHandling(logmodules.Default, logtypes.INFO, "test")
