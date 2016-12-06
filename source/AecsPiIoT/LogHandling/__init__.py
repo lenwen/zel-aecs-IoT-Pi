@@ -88,14 +88,28 @@ class LogHandling(object):
                     # log to file
                     LogHandling.OutputFile(x.fileName, logtext, dclass.logAddDateTime)
                     #print("log to file!!!")
+        
         elif logtype == logtypes.INFO:
             isTypeInfo = True
+            if (dclass.logConsoleInfo):
+                LogHandling.OutputConsole(logtext, dclass.logAddDateTime)
+            for x in dclass.logToFile:
+                if (x.fileName is None):
+                    continue
+                if x.logInfo:
+                    # log to file
+                    LogHandling.OutputFile(x.fileName, logtext, dclass.logAddDateTime)
+                    #print("log to file!!!")
+
         elif logtype == logtypes.WARNING:
             isTypeWarning = True
+        
         elif logtype == logtypes.ERROR:
             isTypeWarning = True
+        
         elif logtype == logtypes.CRITICAL:
             isTypeCritical = True
+        
         else:
             isTypeNotSet = True
 

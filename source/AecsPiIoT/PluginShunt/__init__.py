@@ -6,7 +6,8 @@ import sqlite3
 import os
 
 from Settings import Settings
-from Debug import Debug
+#from Debug import Debug
+from LogHandling import *
 
 from PluginShunt.ShuntDataClass import ShuntDataClass
 from PluginShunt.ShuntCtr import ShuntCtr as ctr
@@ -51,10 +52,13 @@ class PluginShunt (threading.Thread):
         Settings.shunt.ShuntIsRunning = False
 
     def debugInfo(self, Text):
-        Debug.Info("Shunt | {text}".format(text=Text))
+        LogHandling.log(logmodules.Shunt, logtypes.INFO, Text)
+        #Debug.Info("Shunt | {text}".format(text=Text))
 
     def debugWarning(self, Text):
-        Debug.Warning("Shunt | {text}".format(text=Text))    
+        LogHandling.log(logmodules.Shunt, logtypes.WARNING, Text)
+        #Debug.Warning("Shunt | {text}".format(text=Text))    
     
     def debugError(self, Text):
-        Debug.Error("Shunt | {text}".format(text=Text))
+        LogHandling.log(logmodules.Shunt, logtypes.ERROR, Text)
+        #Debug.Error("Shunt | {text}".format(text=Text))

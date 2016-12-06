@@ -274,6 +274,8 @@ signal.signal(signal.SIGINT, signal_handler)
 
 def main():
     
+    #region     Build loghandling information
+    
     #   Build loghandling default system
     aa = logSettingsClass
     aa.logConsoleDebug = True
@@ -288,13 +290,34 @@ def main():
     
     aa.logToFile.append(aaa)
     Settings.logHandling["default"] = aa
+    
+    
+    #Build shunt logging.
+    ab = logSettingsClass
+    ab.logConsoleWarning = True
+    ab.logConsoleError = True
+    ab.logConsoleCritical = True
+    abb = logSettingFileClass
+    abb.fileName = "/var/log/aecs/shunt.log"
+    abb.logDebug = True
+    abb.logInfo = True
+    abb.logWarning = True
+    abb.logError = True
+    abb.logCritical = True
+    ab.logToFile.append(abb)
+    Settings.logHandling["shunt"] = ab
 
-    LogHandling.log(logmodules.Default, logtypes.DEBUG, "test debug message")
-    LogHandling.log(logmodules.Default, logtypes.INFO, "test")
-    LogHandling.log(logmodules.Shunt, logtypes.CRITICAL, "cr")
+        
+    #endregion
+
+
+
+    #LogHandling.log(logmodules.Default, logtypes.DEBUG, "test debug message")
+    #LogHandling.log(logmodules.Default, logtypes.INFO, "test")
+    #LogHandling.log(logmodules.Shunt, logtypes.CRITICAL, "cr")
     # LogHandling(logmodules.Default, logtypes.INFO, "test")
 
-    choice = input("Select your item: ")
+    #choice = input("Select your item: ")
     
     Debug.Info("Aecs-Pi-IoT Starting!!")
     
